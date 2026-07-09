@@ -1,6 +1,7 @@
 import { LABELS, type Label } from '../src/types.js'
 
 export interface GradedCase {
+  /** Caller-guaranteed unique id; grade() assumes uniqueness and does not verify it. */
   id: string
   expected: Label
   predicted: Label | 'error'
@@ -23,10 +24,11 @@ export interface Metrics {
   newsletterPrecision: number | null
 }
 
+const emptyRow = (): Record<Label | 'error', number> =>
+  Object.fromEntries([...LABELS, 'error'].map(k => [k, 0])) as Record<Label | 'error', number>
+
 export function grade(cases: GradedCase[]): Metrics {
-  const confusion = Object.fromEntries(
-    LABELS.map(l => [l, { urgent: 0, normal: 0, newsletter: 0, error: 0 }]),
-  ) as Metrics['confusion']
+  const confusion = Object.fromEntries(LABELS.map(l => [l, emptyRow()])) as Metrics['confusion']
 
   let correct = 0
   for (const c of cases) {
@@ -46,11 +48,14 @@ export function grade(cases: GradedCase[]): Metrics {
     }
   }
 
+  // Single source of truth: errors are the 'error' column of the confusion matrix.
+  const errors = LABELS.reduce((sum, l) => sum + confusion[l].error, 0)
+
   return {
     total: cases.length,
     correct,
     accuracy: cases.length === 0 ? 0 : correct / cases.length,
-    errors: cases.filter(c => c.predicted === 'error').length,
+    errors,
     confusion,
     perClass,
     urgentRecall: perClass.urgent.recall,
@@ -58,6 +63,8 @@ export function grade(cases: GradedCase[]): Metrics {
   }
 }
 
+// Nearest-rank percentile with ceiling index — chosen for determinism on small N
+// (no interpolation). Do not "improve": it would silently change committed p95 numbers.
 export function percentile(values: number[], p: number): number {
   if (values.length === 0) return 0
   const sorted = [...values].sort((a, b) => a - b)

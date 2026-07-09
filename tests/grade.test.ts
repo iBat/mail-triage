@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { grade, percentile, type GradedCase } from '../evals/grade.js'
+import { LABELS } from '../src/types.js'
 
 const cases: GradedCase[] = [
   { id: '1', expected: 'urgent', predicted: 'urgent' },
@@ -40,6 +41,25 @@ describe('grade', () => {
   it('precision is null when a class was never predicted', () => {
     const m2 = grade([{ id: '1', expected: 'urgent', predicted: 'normal' }])
     expect(m2.perClass.newsletter.precision).toBeNull()
+  })
+
+  it('handles an empty case list without NaN', () => {
+    const m = grade([])
+    expect(m.total).toBe(0)
+    expect(m.accuracy).toBe(0)
+    expect(m.urgentRecall).toBe(0)
+    expect(m.newsletterPrecision).toBeNull()
+    expect(m.errors).toBe(0)
+  })
+
+  it('handles an all-error run', () => {
+    const m = grade([
+      { id: '1', expected: 'urgent', predicted: 'error' },
+      { id: '2', expected: 'newsletter', predicted: 'error' },
+    ])
+    expect(m.errors).toBe(2)
+    expect(m.accuracy).toBe(0)
+    for (const label of LABELS) expect(m.perClass[label].precision).toBeNull()
   })
 })
 
