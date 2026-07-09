@@ -19,12 +19,28 @@ console.log('Open this URL in your browser:\n\n' + url + '\n\nWaiting for the ca
 
 const server = createServer((req, res) => {
   void (async () => {
-    const code = new URL(req.url ?? '/', `http://127.0.0.1:${PORT}`).searchParams.get('code')
+    const params = new URL(req.url ?? '/', `http://127.0.0.1:${PORT}`).searchParams
+    const error = params.get('error')
+    if (error) {
+      res.writeHead(400).end('OAuth error: ' + error)
+      console.error('OAuth error: ' + error)
+      server.close()
+      return
+    }
+    const code = params.get('code')
     if (!code) {
       res.writeHead(400).end('missing code')
       return
     }
     const { tokens } = await auth.getToken(code)
+    if (!tokens.refresh_token) {
+      res.writeHead(500).end('No refresh token returned, see terminal')
+      console.error(
+        'No refresh token returned — revoke the app at myaccount.google.com/permissions and retry',
+      )
+      server.close()
+      return
+    }
     res.writeHead(200, { 'content-type': 'text/plain' }).end('Done. You can close this tab.')
     console.log('\nAdd this line to .env:\n\nGMAIL_REFRESH_TOKEN=' + tokens.refresh_token)
     server.close()
@@ -34,4 +50,4 @@ const server = createServer((req, res) => {
     server.close()
   })
 })
-server.listen(PORT)
+server.listen(PORT, '127.0.0.1')

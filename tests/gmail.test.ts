@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
-import { extractPlainText, toEmailInput } from '../src/gmail.js'
+import { describe, expect, it, vi } from 'vitest'
+import type { gmail_v1 } from 'googleapis'
+import { extractPlainText, markAsRead, toEmailInput } from '../src/gmail.js'
 
 const b64 = (s: string): string => Buffer.from(s).toString('base64url')
 
@@ -42,5 +43,35 @@ describe('extractPlainText', () => {
 
   it('decodes a top-level text/plain body', () => {
     expect(extractPlainText({ mimeType: 'text/plain', body: { data: b64('hello') } })).toBe('hello')
+  })
+
+  it('skips text/plain attachments and returns the nested body', () => {
+    const mixed = {
+      mimeType: 'multipart/mixed',
+      parts: [
+        { mimeType: 'text/plain', filename: 'notes.txt', body: { data: b64('attachment content') } },
+        {
+          mimeType: 'multipart/alternative',
+          parts: [
+            { mimeType: 'text/html', body: { data: b64('<b>html</b>') } },
+            { mimeType: 'text/plain', filename: '', body: { data: b64('actual body') } },
+          ],
+        },
+      ],
+    }
+    expect(extractPlainText(mixed)).toBe('actual body')
+  })
+})
+
+describe('markAsRead', () => {
+  it('removes the UNREAD label via messages.modify', async () => {
+    const modify = vi.fn().mockResolvedValue({})
+    const gmail = { users: { messages: { modify } } } as unknown as gmail_v1.Gmail
+    await markAsRead(gmail, 'x')
+    expect(modify).toHaveBeenCalledExactlyOnceWith({
+      userId: 'me',
+      id: 'x',
+      requestBody: { removeLabelIds: ['UNREAD'] },
+    })
   })
 })

@@ -39,7 +39,9 @@ export function toEmailInput(msg: gmail_v1.Schema$Message): EmailInput {
 
 export function extractPlainText(part: gmail_v1.Schema$MessagePart | undefined): string | undefined {
   if (!part) return undefined
-  if (part.mimeType === 'text/plain' && part.body?.data) {
+  // A truthy filename marks the part as an attachment, not the message body.
+  if (part.mimeType === 'text/plain' && part.body?.data && !part.filename) {
+    // TODO: charset — decodes as UTF-8 only; non-UTF8 parts (e.g. windows-1251) will garble. Known v1 limitation.
     return Buffer.from(part.body.data, 'base64url').toString('utf8')
   }
   for (const child of part.parts ?? []) {
