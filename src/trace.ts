@@ -21,6 +21,7 @@ export function hashEmailId(id: string): string {
   return createHash('sha256').update(id).digest('hex').slice(0, 12)
 }
 
+// Bucketed by the UTC date of event.ts, not the local calendar day.
 export function appendTrace(dir: string, event: TraceEvent): void {
   mkdirSync(dir, { recursive: true })
   appendFileSync(join(dir, `${event.ts.slice(0, 10)}.jsonl`), JSON.stringify(event) + '\n')

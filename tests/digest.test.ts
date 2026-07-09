@@ -19,6 +19,16 @@ describe('buildUrgentDigest', () => {
     expect(text.startsWith('1 urgent email this morning:')).toBe(true)
   })
 
+  it('passes summaries through verbatim, without HTML escaping (n8n parity)', () => {
+    // Deliberate parity carryover: a summary containing '<' or '&' is inserted
+    // unescaped. If this test starts failing, someone "fixed" escaping — that
+    // must wait for the post-parity phase (see TODO in src/digest.ts).
+    const text = buildUrgentDigest([
+      { email: { id: 'id1', subject: 's', snippet: 'p' }, summary: 'AT&T invoice <overdue>.' },
+    ])
+    expect(text).toContain('• AT&T invoice <overdue>. <a href=')
+  })
+
   it('counts items without summary but omits their lines (n8n parity)', () => {
     const text = buildUrgentDigest([
       { email: { id: 'id1', subject: 's', snippet: 'p' }, summary: 'X.' },
