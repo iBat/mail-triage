@@ -17,4 +17,13 @@ describe('renderEmail', () => {
   it('body variant without body falls back to snippet shape', () => {
     expect(renderEmail({ id: 'x2', subject: 'S', snippet: 'p' }, 'body')).toBe('Subject: S\nSnippet: p')
   })
+
+  it('body variant with empty body falls back to snippet shape', () => {
+    expect(renderEmail({ id: 'x3', subject: 'S', snippet: 'p', body: '' }, 'body')).toBe('Subject: S\nSnippet: p')
+  })
+
+  it('body variant respects a custom bodyChars limit', () => {
+    const out = renderEmail(email, 'body', 50)
+    expect(out).toBe(`Subject: Hello\nSnippet: short preview\nBody:\n${'B'.repeat(50)}`)
+  })
 })

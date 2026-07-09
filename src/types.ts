@@ -1,4 +1,6 @@
-import { z } from 'zod'
+// zod/v4 API is required: the Anthropic SDK's zodOutputFormat helper calls
+// z.toJSONSchema, which only works with v4 schemas (OpenAI's zodTextFormat accepts both).
+import { z } from 'zod/v4'
 
 export const LABELS = ['urgent', 'normal', 'newsletter'] as const
 export type Label = (typeof LABELS)[number]
