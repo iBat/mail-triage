@@ -1,6 +1,7 @@
 import type { EmailInput } from './types.js'
 
-export type InputVariant = 'snippet' | 'body'
+export const INPUT_VARIANTS = ['snippet', 'body'] as const
+export type InputVariant = (typeof INPUT_VARIANTS)[number]
 
 export const DEFAULT_BODY_CHARS = 2000
 

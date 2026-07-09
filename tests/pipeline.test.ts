@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { shouldMarkAsRead, selectUrgent, type ProcessedEmail } from '../src/pipeline.js'
+import { allFailed, shouldMarkAsRead, selectUrgent, type ProcessedEmail } from '../src/pipeline.js'
 
 const email = { id: 'e1', subject: 's', snippet: 'p' }
 const ok = (label: 'urgent' | 'normal' | 'newsletter', summary?: string): ProcessedEmail => ({
@@ -31,5 +31,19 @@ describe('selectUrgent', () => {
 
   it('treats failed classification as normal: not urgent, no digest entry', () => {
     expect(selectUrgent([failed])).toEqual([])
+  })
+})
+
+describe('allFailed (systemic failure detection)', () => {
+  it('true when every classification failed', () => {
+    expect(allFailed([failed, failed])).toBe(true)
+  })
+
+  it('false when at least one classification succeeded', () => {
+    expect(allFailed([failed, ok('normal')])).toBe(false)
+  })
+
+  it('false for an empty run — no emails is not a systemic failure', () => {
+    expect(allFailed([])).toBe(false)
   })
 })

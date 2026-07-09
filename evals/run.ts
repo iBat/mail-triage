@@ -5,10 +5,13 @@ import { loadDataset, type DatasetCase } from './dataset.js'
 import { grade, percentile, type Metrics } from './grade.js'
 import { costUsd, PRICES_PER_MTOK } from './prices.js'
 import { loadPrompt } from '../src/prompts.js'
-import { anthropicClassifier } from '../src/classifier/anthropic.js'
-import { openaiClassifier } from '../src/classifier/openai.js'
+import { makeClassifier } from '../src/classifier/factory.js'
 import type { Classifier, Label, Usage } from '../src/types.js'
-import type { InputVariant } from '../src/render.js'
+import { INPUT_VARIANTS, type InputVariant } from '../src/render.js'
+
+// Re-exported for consumers/tests that treat the eval harness as the entry
+// point; the implementation lives in src so the pipeline shares it too.
+export { makeClassifier }
 
 export interface EvalCaseOutcome {
   id: string
@@ -33,13 +36,6 @@ export interface EvalRunResult extends RunConfig {
   costUsdPer1000: number
   latency: { p50: number; p95: number }
   cases: EvalCaseOutcome[]
-}
-
-export function makeClassifier(model: string, promptVersion: string, inputVariant: InputVariant): Classifier {
-  const systemPrompt = loadPrompt(promptVersion)
-  return model.startsWith('claude-')
-    ? anthropicClassifier({ model, systemPrompt, inputVariant })
-    : openaiClassifier({ model, systemPrompt, inputVariant })
 }
 
 // Sequential on purpose: ~100 cases per combo is minutes of wall-clock and
@@ -95,10 +91,9 @@ async function main(): Promise<void> {
     if (list.length === 0) throw new Error(`${flag} resolved to an empty list`)
   }
 
-  const VALID_INPUTS: InputVariant[] = ['snippet', 'body']
   for (const input of inputs) {
-    if (!VALID_INPUTS.includes(input as InputVariant)) {
-      throw new Error(`Unknown input variant "${input}". Valid: ${VALID_INPUTS.join(', ')}`)
+    if (!(INPUT_VARIANTS as readonly string[]).includes(input)) {
+      throw new Error(`Unknown input variant "${input}". Valid: ${INPUT_VARIANTS.join(', ')}`)
     }
   }
   for (const model of models) {
