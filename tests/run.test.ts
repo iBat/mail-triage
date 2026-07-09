@@ -33,7 +33,8 @@ describe('buildRunResult', () => {
     }, outcomes)
     expect(result.metrics.total).toBe(3)
     expect(result.metrics.urgentRecall).toBe(1)
-    expect(result.costUsdPer1000).toBeGreaterThan(0)
+    // 2 successes x (100 x $0.25 + 10 x $2.0)/1e6 = $0.00009 total / 3 cases x 1000 = $0.03
+    expect(result.costUsdPer1000).toBeCloseTo(0.03)
     expect(result.latency.p50).toBe(50)
     expect(result.runId).toContain('sample_gpt-5-mini_v1_snippet')
   })

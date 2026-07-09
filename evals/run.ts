@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { parseArgs } from 'node:util'
 import { loadDataset, type DatasetCase } from './dataset.js'
 import { grade, percentile, type Metrics } from './grade.js'
-import { costUsd } from './prices.js'
+import { costUsd, PRICES_PER_MTOK } from './prices.js'
 import { loadPrompt } from '../src/prompts.js'
 import { anthropicClassifier } from '../src/classifier/anthropic.js'
 import { openaiClassifier } from '../src/classifier/openai.js'
@@ -57,12 +57,16 @@ export async function evalClassifier(classifier: Classifier, cases: DatasetCase[
   return outcomes
 }
 
+// Monotonic suffix so two runs built within the same millisecond (fast tests,
+// tight matrix loops) can never collide on runId / result file name.
+let runCounter = 0
+
 export function buildRunResult(config: RunConfig, outcomes: EvalCaseOutcome[]): EvalRunResult {
   const latencies = outcomes.flatMap(o => (o.latencyMs === undefined ? [] : [o.latencyMs]))
   const totalCost = outcomes.reduce((sum, o) => sum + (o.usage ? costUsd(config.model, o.usage) : 0), 0)
   return {
     ...config,
-    runId: `${config.dataset}_${config.model}_${config.promptVersion}_${config.inputVariant}_${Date.now()}`,
+    runId: `${config.dataset}_${config.model}_${config.promptVersion}_${config.inputVariant}_${Date.now()}_${++runCounter}`,
     startedAt: new Date().toISOString(),
     metrics: grade(outcomes),
     costUsdPer1000: outcomes.length === 0 ? 0 : (totalCost / outcomes.length) * 1000,
@@ -80,12 +84,34 @@ async function main(): Promise<void> {
       input: { type: 'string', default: 'snippet' },
     },
   })
+  // Validate the whole matrix up front: fail before the first API call is made
+  // (and before any money is spent), not halfway through a combo loop.
+  const models = values.models!.split(',').map(s => s.trim()).filter(Boolean)
+  const prompts = values.prompt!.split(',').map(s => s.trim()).filter(Boolean)
+  const inputs = values.input!.split(',').map(s => s.trim()).filter(Boolean)
+
+  const VALID_INPUTS: InputVariant[] = ['snippet', 'body']
+  for (const input of inputs) {
+    if (!VALID_INPUTS.includes(input as InputVariant)) {
+      throw new Error(`Unknown input variant "${input}". Valid: ${VALID_INPUTS.join(', ')}`)
+    }
+  }
+  for (const model of models) {
+    if (!(model in PRICES_PER_MTOK)) {
+      throw new Error(`Unknown model "${model}". Known (from evals/prices.ts): ${Object.keys(PRICES_PER_MTOK).join(', ')}. Add its price first — cost numbers must never silently be $0.`)
+    }
+  }
+  // loadPrompt throws its own friendly error for unknown prompt versions.
+  for (const promptVersion of prompts) loadPrompt(promptVersion)
+
   const cases = loadDataset(`datasets/${values.dataset}.jsonl`)
+  // Both paths resolve relative to cwd; the supported invocation is
+  // `npm run eval` from the repo root.
   mkdirSync('evals/results', { recursive: true })
 
-  for (const model of values.models!.split(',')) {
-    for (const promptVersion of values.prompt!.split(',')) {
-      for (const inputVariant of values.input!.split(',') as InputVariant[]) {
+  for (const model of models) {
+    for (const promptVersion of prompts) {
+      for (const inputVariant of inputs as InputVariant[]) {
         const config: RunConfig = { dataset: values.dataset!, model, promptVersion, inputVariant }
         console.log(`running ${model} / ${promptVersion} / ${inputVariant} on ${values.dataset} (${cases.length} cases)`)
         const outcomes = await evalClassifier(makeClassifier(model, promptVersion, inputVariant), cases)
