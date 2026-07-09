@@ -10,7 +10,7 @@ export function reportTable(runs: EvalRunResult[]): string {
   const header = '| model | prompt | input | dataset | accuracy | urgent recall | newsletter precision | $/1000 | p50 ms | p95 ms | errors |'
   const sep = '|---|---|---|---|---|---|---|---|---|---|---|'
   const rows = [...runs]
-    .sort((a, b) => `${a.model}${a.promptVersion}${a.inputVariant}`.localeCompare(`${b.model}${b.promptVersion}${b.inputVariant}`))
+    .sort((a, b) => `${a.model}${a.promptVersion}${a.inputVariant}${a.dataset}`.localeCompare(`${b.model}${b.promptVersion}${b.inputVariant}${b.dataset}`))
     .map(r => `| ${r.model} | ${r.promptVersion} | ${r.inputVariant} | ${r.dataset} | ${pct(r.metrics.accuracy)} | ${pct(r.metrics.urgentRecall)} | ${pct(r.metrics.newsletterPrecision)} | $${r.costUsdPer1000.toFixed(2)} | ${r.latency.p50} | ${r.latency.p95} | ${r.metrics.errors} |`)
   return [header, sep, ...rows].join('\n')
 }
@@ -21,7 +21,13 @@ function main(): void {
   const runs = existsSync(dir)
     ? readdirSync(dir)
         .filter(f => f.endsWith('.json'))
-        .map(f => JSON.parse(readFileSync(join(dir, f), 'utf8')) as EvalRunResult)
+        .map(f => {
+          try {
+            return JSON.parse(readFileSync(join(dir, f), 'utf8')) as EvalRunResult
+          } catch (err) {
+            throw new Error(`${join(dir, f)}: invalid result file: ${err}`)
+          }
+        })
     : []
   console.log(reportTable(runs))
 }
