@@ -2,3 +2,5 @@ node_modules/
 .env
 datasets/real*.jsonl
 traces/
+coverage/
+.DS_Store

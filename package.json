@@ -9,11 +9,11 @@
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "eval": "node --env-file=.env --import tsx evals/run.ts",
+    "eval": "node --env-file-if-exists=.env --import tsx evals/run.ts",
     "report": "node --import tsx evals/report.ts",
-    "pipeline": "node --env-file=.env --import tsx src/main.ts",
-    "gmail-auth": "node --env-file=.env --import tsx scripts/gmail-auth.ts",
-    "export-emails": "node --env-file=.env --import tsx scripts/export-emails.ts"
+    "pipeline": "node --env-file-if-exists=.env --import tsx src/main.ts",
+    "gmail-auth": "node --env-file-if-exists=.env --import tsx scripts/gmail-auth.ts",
+    "export-emails": "node --env-file-if-exists=.env --import tsx scripts/export-emails.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.110.0",
@@ -22,7 +22,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1",
+    "@types/node": "^24.13.3",
     "tsx": "^4.23.0",
     "typescript": "^7.0.2",
     "vitest": "^4.1.10"
