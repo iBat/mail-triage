@@ -67,14 +67,6 @@ export async function runPipeline(): Promise<void> {
     }
   }
 
-  const failures = processed.filter(p => p.error).length
-  // Systemic failure must resolve loudly (main.ts alerts on rejection), not
-  // as a silent run with no digest and nothing archived. This also makes a
-  // typo'd CLASSIFIER_MODEL loud without needing a model allowlist here.
-  if (allFailed(processed)) {
-    throw new Error(`all ${failures} classifications failed — check model/keys (first error: ${processed[0]?.error})`)
-  }
-
   for (const p of processed) {
     appendTrace('traces', {
       ts: new Date().toISOString(),
@@ -91,6 +83,15 @@ export async function runPipeline(): Promise<void> {
       error: p.error?.replaceAll(p.email.id, hashEmailId(p.email.id)),
       shadow,
     })
+  }
+
+  const failures = processed.filter(p => p.error).length
+  // Systemic failure must resolve loudly (main.ts alerts on rejection), not
+  // as a silent run with no digest and nothing archived. This also makes a
+  // typo'd CLASSIFIER_MODEL loud without needing a model allowlist here.
+  // Traces are written first: an all-failed day needs its audit trail the most.
+  if (allFailed(processed)) {
+    throw new Error(`all ${failures} classifications failed — check model/keys (first error: ${processed[0]?.error})`)
   }
 
   // Deliberate ordering: a digest send failure (e.g. Telegram 400 on the
