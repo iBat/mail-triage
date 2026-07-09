@@ -19,4 +19,19 @@ describe('loadDataset', () => {
     writeFileSync(bad, '{"id":"1","subject":"s","snippet":"p","expected":"spam"}\n')
     expect(() => loadDataset(bad)).toThrow(/bad\.jsonl:1/)
   })
+
+  it('reports the real file line even when blank lines precede a bad row', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ds-'))
+    const bad = join(dir, 'drift.jsonl')
+    writeFileSync(bad, '\n\n{"id":"1","subject":"s","snippet":"p","expected":"spam"}\n')
+    expect(() => loadDataset(bad)).toThrow(/drift\.jsonl:3/)
+  })
+
+  it('rejects duplicate ids naming both lines', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ds-'))
+    const dup = join(dir, 'dup.jsonl')
+    const row = '{"id":"same","subject":"s","snippet":"p","expected":"normal"}'
+    writeFileSync(dup, row + '\n' + row + '\n')
+    expect(() => loadDataset(dup)).toThrow(/dup\.jsonl:2: duplicate id "same" \(first seen at line 1\)/)
+  })
 })

@@ -3,7 +3,7 @@ import { z } from 'zod/v4'
 import { LABELS } from '../src/types.js'
 
 export const DatasetCaseSchema = z.object({
-  id: z.string(),
+  id: z.string().min(1),
   subject: z.string(),
   snippet: z.string(),
   body: z.string().optional(),
@@ -13,12 +13,23 @@ export const DatasetCaseSchema = z.object({
 export type DatasetCase = z.infer<typeof DatasetCaseSchema>
 
 export function loadDataset(path: string): DatasetCase[] {
-  const lines = readFileSync(path, 'utf8').split('\n').filter(l => l.trim() !== '')
-  return lines.map((line, i) => {
+  const rawLines = readFileSync(path, 'utf8').split('\n')
+  const cases: DatasetCase[] = []
+  const seenIds = new Map<string, number>() // id -> 1-based line
+  rawLines.forEach((line, i) => {
+    if (line.trim() === '') return
+    let parsed: DatasetCase
     try {
-      return DatasetCaseSchema.parse(JSON.parse(line))
+      parsed = DatasetCaseSchema.parse(JSON.parse(line))
     } catch (err) {
       throw new Error(`${path}:${i + 1}: invalid dataset row: ${err}`)
     }
+    const firstLine = seenIds.get(parsed.id)
+    if (firstLine !== undefined) {
+      throw new Error(`${path}:${i + 1}: duplicate id "${parsed.id}" (first seen at line ${firstLine})`)
+    }
+    seenIds.set(parsed.id, i + 1)
+    cases.push(parsed)
   })
+  return cases
 }
