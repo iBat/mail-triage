@@ -38,6 +38,9 @@ describe('openaiClassifier', () => {
     expect(call.input).toBe('Subject: Weekly digest\nSnippet: news of the week')
     expect(call.text.format.type).toBe('json_schema')
     expect(call.text.format.name).toBe('classification')
+    // Pin the schema contract produced by zodTextFormat(ClassificationSchema, 'classification').
+    expect(call.text.format.strict).toBe(true)
+    expect(call.text.format.schema.required).toEqual(['label', 'summary'])
   })
 
   it('throws with diagnostics when output_parsed is null (e.g. incomplete response)', async () => {

@@ -18,6 +18,10 @@ export function openaiClassifier(opts: OpenAIClassifierOptions): Classifier {
     name: opts.model,
     async classify(e: EmailInput): Promise<ClassifiedResult> {
       const started = performance.now()
+      // No max_output_tokens / reasoning.effort overrides: the n8n production
+      // baseline ran gpt-5-mini with provider defaults, and the eval baseline
+      // must reproduce that configuration. Revisit as a separate experiment
+      // (reasoning effort is a cost/latency knob, not a free win).
       const response = await client.responses.parse({
         model: opts.model,
         instructions: opts.systemPrompt,
@@ -34,6 +38,8 @@ export function openaiClassifier(opts: OpenAIClassifierOptions): Classifier {
           `(status: ${response.status}, reason: ${response.incomplete_details?.reason ?? 'unknown'})`,
         )
       }
+      // A synchronous completed response always carries usage; the `?? 0` only
+      // satisfies the SDK's optional typing (streaming/background states this code never produces).
       return toResult(response.output_parsed, {
         inputTokens: response.usage?.input_tokens ?? 0,
         outputTokens: response.usage?.output_tokens ?? 0,
