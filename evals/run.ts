@@ -90,6 +90,11 @@ async function main(): Promise<void> {
   const prompts = values.prompt!.split(',').map(s => s.trim()).filter(Boolean)
   const inputs = values.input!.split(',').map(s => s.trim()).filter(Boolean)
 
+  // An unset shell variable (`--models ""`) must not exit 0 as a silent no-op.
+  for (const [flag, list] of [['--models', models], ['--prompt', prompts], ['--input', inputs]] as const) {
+    if (list.length === 0) throw new Error(`${flag} resolved to an empty list`)
+  }
+
   const VALID_INPUTS: InputVariant[] = ['snippet', 'body']
   for (const input of inputs) {
     if (!VALID_INPUTS.includes(input as InputVariant)) {
