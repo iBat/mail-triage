@@ -11,7 +11,9 @@ export interface AnthropicClassifierOptions {
 }
 
 export function anthropicClassifier(opts: AnthropicClassifierOptions): Classifier {
-  const client = opts.client ?? new Anthropic()
+  // Small classification calls: fail fast into the upstream fail-safe rather than
+  // stall the batch (SDK default is 10 min per attempt). Default maxRetries kept.
+  const client = opts.client ?? new Anthropic({ timeout: 60_000 })
   return {
     name: opts.model,
     async classify(e: EmailInput): Promise<ClassifiedResult> {
@@ -23,9 +25,12 @@ export function anthropicClassifier(opts: AnthropicClassifierOptions): Classifie
         messages: [{ role: 'user', content: renderEmail(e, opts.inputVariant) }],
         output_config: { format: zodOutputFormat(ClassificationSchema) },
       })
+      // Wall-clock latency including SDK retries/backoff — deliberately "as the caller experienced it".
       const latencyMs = Math.round(performance.now() - started)
       if (!response.parsed_output) {
-        throw new Error(`anthropic structured output parse failed for email ${e.id}`)
+        throw new Error(
+          `anthropic structured output parse failed for email ${e.id} (stop_reason: ${response.stop_reason})`,
+        )
       }
       return toResult(
         response.parsed_output,
