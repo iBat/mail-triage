@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs'
+import { existsSync, writeFileSync } from 'node:fs'
 import { requireEnv } from '../src/env.js'
 import { fetchRecentEmails, gmailService } from '../src/gmail.js'
 import { hashEmailId } from '../src/trace.js'
@@ -6,6 +6,13 @@ import { hashEmailId } from '../src/trace.js'
 // Dataset id is hashEmailId(gmail id), NOT the raw Gmail id
 // so committed eval results never contain anything private.
 const days = Number(process.argv[2] ?? 14)
+
+const out = 'datasets/real.unlabeled.jsonl'
+// The export is hand-edited during labeling, so overwriting it is data loss.
+if (existsSync(out)) {
+  console.error(`Refusing to overwrite ${out}: it may contain labeling in progress. Move or delete it first.`)
+  process.exit(1)
+}
 
 const gmail = gmailService({
   clientId: requireEnv('GMAIL_CLIENT_ID'),
@@ -23,7 +30,8 @@ const lines = emails.map(e =>
     expected: '',
   }),
 )
-const out = 'datasets/real.unlabeled.jsonl'
 writeFileSync(out, lines.join('\n') + '\n')
 console.log(`${emails.length} emails from the last ${days} days -> ${out}`)
-console.log('Label each row (expected: urgent | normal | newsletter), then rename to datasets/real.jsonl')
+if (emails.length > 0) {
+  console.log('Label each row (expected: urgent | normal | newsletter), then rename to datasets/real.jsonl')
+}
