@@ -124,10 +124,10 @@ Full table from `npm run report` (all committed runs under
 
 **Chosen configuration: `gpt-5-mini` / `v3-personal` / `body`.** On the real
 dataset, urgent recall went from 0.211 (v1, the ported n8n baseline) to
-1.000, while newsletter precision held at 97.6% — essentially unchanged from
-the 95.9%-97.2% range every other configuration also sat in. It's also the
-cheapest of the three models evaluated under this configuration, at
-$0.63/1000 emails.
+1.000, while newsletter precision held at 97.6%. That metric was never the
+differentiator: every configuration on the real dataset sat in a narrow
+95.9%-98.4% band. It's also the cheapest of the three models evaluated under
+this configuration, at $0.63/1000 emails.
 
 The twist worth stating plainly: the production model was never the
 bottleneck. `gpt-5-mini` under the original prompt and input shape scored
