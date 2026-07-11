@@ -1,0 +1,180 @@
+{
+  "dataset": "sample",
+  "model": "claude-sonnet-5",
+  "promptVersion": "v1",
+  "inputVariant": "snippet",
+  "runId": "sample_claude-sonnet-5_v1_snippet_1783762683131_2",
+  "startedAt": "2026-07-11T09:38:03.131Z",
+  "metrics": {
+    "total": 12,
+    "correct": 12,
+    "accuracy": 1,
+    "errors": 0,
+    "confusion": {
+      "urgent": {
+        "urgent": 4,
+        "normal": 0,
+        "newsletter": 0,
+        "error": 0
+      },
+      "normal": {
+        "urgent": 0,
+        "normal": 4,
+        "newsletter": 0,
+        "error": 0
+      },
+      "newsletter": {
+        "urgent": 0,
+        "normal": 0,
+        "newsletter": 4,
+        "error": 0
+      }
+    },
+    "perClass": {
+      "urgent": {
+        "recall": 1,
+        "precision": 1,
+        "support": 4
+      },
+      "normal": {
+        "recall": 1,
+        "precision": 1,
+        "support": 4
+      },
+      "newsletter": {
+        "recall": 1,
+        "precision": 1,
+        "support": 4
+      }
+    },
+    "urgentRecall": 1,
+    "newsletterPrecision": 1
+  },
+  "costUsdPer1000": 1.2155,
+  "latency": {
+    "p50": 2638,
+    "p95": 3721
+  },
+  "cases": [
+    {
+      "id": "s01",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3721,
+      "usage": {
+        "inputTokens": 451,
+        "outputTokens": 49
+      }
+    },
+    {
+      "id": "s02",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2755,
+      "usage": {
+        "inputTokens": 459,
+        "outputTokens": 50
+      }
+    },
+    {
+      "id": "s03",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3057,
+      "usage": {
+        "inputTokens": 463,
+        "outputTokens": 59
+      }
+    },
+    {
+      "id": "s04",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2855,
+      "usage": {
+        "inputTokens": 469,
+        "outputTokens": 55
+      }
+    },
+    {
+      "id": "s05",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2638,
+      "usage": {
+        "inputTokens": 444,
+        "outputTokens": 15
+      }
+    },
+    {
+      "id": "s06",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 3332,
+      "usage": {
+        "inputTokens": 452,
+        "outputTokens": 37
+      }
+    },
+    {
+      "id": "s07",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2335,
+      "usage": {
+        "inputTokens": 450,
+        "outputTokens": 15
+      }
+    },
+    {
+      "id": "s08",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2215,
+      "usage": {
+        "inputTokens": 460,
+        "outputTokens": 15
+      }
+    },
+    {
+      "id": "s09",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2612,
+      "usage": {
+        "inputTokens": 455,
+        "outputTokens": 17
+      }
+    },
+    {
+      "id": "s10",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2271,
+      "usage": {
+        "inputTokens": 457,
+        "outputTokens": 17
+      }
+    },
+    {
+      "id": "s11",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2632,
+      "usage": {
+        "inputTokens": 453,
+        "outputTokens": 17
+      }
+    },
+    {
+      "id": "s12",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3245,
+      "usage": {
+        "inputTokens": 465,
+        "outputTokens": 17
+      }
+    }
+  ]
+}

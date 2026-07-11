@@ -1,0 +1,180 @@
+{
+  "dataset": "sample",
+  "model": "claude-haiku-4-5",
+  "promptVersion": "v1",
+  "inputVariant": "snippet",
+  "runId": "sample_claude-haiku-4-5_v1_snippet_1783762649460_1",
+  "startedAt": "2026-07-11T09:37:29.460Z",
+  "metrics": {
+    "total": 12,
+    "correct": 11,
+    "accuracy": 0.9166666666666666,
+    "errors": 0,
+    "confusion": {
+      "urgent": {
+        "urgent": 4,
+        "normal": 0,
+        "newsletter": 0,
+        "error": 0
+      },
+      "normal": {
+        "urgent": 0,
+        "normal": 4,
+        "newsletter": 0,
+        "error": 0
+      },
+      "newsletter": {
+        "urgent": 0,
+        "normal": 1,
+        "newsletter": 3,
+        "error": 0
+      }
+    },
+    "perClass": {
+      "urgent": {
+        "recall": 1,
+        "precision": 1,
+        "support": 4
+      },
+      "normal": {
+        "recall": 1,
+        "precision": 0.8,
+        "support": 4
+      },
+      "newsletter": {
+        "recall": 0.75,
+        "precision": 1,
+        "support": 4
+      }
+    },
+    "urgentRecall": 1,
+    "newsletterPrecision": 1
+  },
+  "costUsdPer1000": 0.43191666666666667,
+  "latency": {
+    "p50": 1313,
+    "p95": 2970
+  },
+  "cases": [
+    {
+      "id": "s01",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2970,
+      "usage": {
+        "inputTokens": 337,
+        "outputTokens": 30
+      }
+    },
+    {
+      "id": "s02",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 1375,
+      "usage": {
+        "inputTokens": 338,
+        "outputTokens": 35
+      }
+    },
+    {
+      "id": "s03",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 1273,
+      "usage": {
+        "inputTokens": 339,
+        "outputTokens": 30
+      }
+    },
+    {
+      "id": "s04",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 1266,
+      "usage": {
+        "inputTokens": 340,
+        "outputTokens": 40
+      }
+    },
+    {
+      "id": "s05",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1309,
+      "usage": {
+        "inputTokens": 328,
+        "outputTokens": 11
+      }
+    },
+    {
+      "id": "s06",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1313,
+      "usage": {
+        "inputTokens": 331,
+        "outputTokens": 11
+      }
+    },
+    {
+      "id": "s07",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1084,
+      "usage": {
+        "inputTokens": 332,
+        "outputTokens": 14
+      }
+    },
+    {
+      "id": "s08",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1342,
+      "usage": {
+        "inputTokens": 337,
+        "outputTokens": 11
+      }
+    },
+    {
+      "id": "s09",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1763,
+      "usage": {
+        "inputTokens": 330,
+        "outputTokens": 11
+      }
+    },
+    {
+      "id": "s10",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1396,
+      "usage": {
+        "inputTokens": 334,
+        "outputTokens": 14
+      }
+    },
+    {
+      "id": "s11",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1518,
+      "usage": {
+        "inputTokens": 332,
+        "outputTokens": 11
+      }
+    },
+    {
+      "id": "s12",
+      "expected": "newsletter",
+      "predicted": "normal",
+      "latencyMs": 1278,
+      "usage": {
+        "inputTokens": 345,
+        "outputTokens": 14
+      }
+    }
+  ]
+}
