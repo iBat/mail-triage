@@ -704,7 +704,11 @@
     a.click();
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-    state.dirty = false;
+    // Deliberately do NOT clear state.dirty here: an anchor+Blob download
+    // has no reliable completion signal, and a cancelled Save As dialog must
+    // never disarm the beforeunload warning. The cost is one extra "unsaved
+    // edits" confirmation on tab close after a successful save; the
+    // alternative is silently losing a whole labeling session.
   }
   downloadBtn.addEventListener('click', triggerDownload);
 
