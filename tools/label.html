@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mail Triage - Label Tool</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b7280;
+    --border: #d8dbe0;
+    --card-bg: #f7f7f8;
+    --input-bg: #ffffff;
+    --accent: #2563eb;
+    --urgent: #dc2626;
+    --urgent-fg: #ffffff;
+    --normal: #6b7280;
+    --normal-fg: #ffffff;
+    --newsletter: #2563eb;
+    --newsletter-fg: #ffffff;
+    --warning-bg: #fff4e5;
+    --warning-border: #f5a524;
+    --error-bg: #fdecec;
+    --error-border: #dc2626;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --fg: #e7e9ec;
+      --muted: #9aa1ac;
+      --border: #33373f;
+      --card-bg: #1b1e24;
+      --input-bg: #20232a;
+      --accent: #5b8def;
+      --urgent: #f0575f;
+      --urgent-fg: #1a0000;
+      --normal: #8b93a1;
+      --normal-fg: #0c0e12;
+      --newsletter: #5b8def;
+      --newsletter-fg: #06111f;
+      --warning-bg: #3a2c10;
+      --warning-border: #d99a2b;
+      --error-bg: #3a1414;
+      --error-border: #f0575f;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    padding: 16px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 18px;
+    margin: 0 0 2px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin: 0 0 14px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .toolbar {
+    margin-bottom: 12px;
+    justify-content: space-between;
+  }
+  #fileInfo {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  button {
+    font: inherit;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--fg);
+    padding: 6px 10px;
+  }
+  button:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .bar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .bar.visible { display: flex; }
+  .bar.warning {
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+  }
+  .bar.error {
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+  }
+  .bar .msg { flex: 1; word-break: break-word; }
+
+  .filter-bar {
+    margin-bottom: 10px;
+  }
+  .pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    background: transparent;
+  }
+  .pill.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .pill-urgent { color: var(--urgent); border-color: var(--urgent); }
+  .pill-urgent.active { background: var(--urgent); color: var(--urgent-fg); }
+  .pill-normal { color: var(--normal); border-color: var(--normal); }
+  .pill-normal.active { background: var(--normal); color: var(--normal-fg); }
+  .pill-newsletter { color: var(--newsletter); border-color: var(--newsletter); }
+  .pill-newsletter.active { background: var(--newsletter); color: var(--newsletter-fg); }
+
+  .progress {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  #emptyState {
+    padding: 40px 12px;
+    text-align: center;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+  }
+
+  #card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card-bg);
+    padding: 16px;
+  }
+  .card-header {
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  #positionCounter {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  #idEl {
+    color: var(--muted);
+    font-size: 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  #subjectEl {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 4px 0 6px;
+    overflow-wrap: anywhere;
+  }
+  #snippetEl {
+    color: var(--muted);
+    margin: 0 0 10px;
+    overflow-wrap: anywhere;
+  }
+  .body-section {
+    margin-bottom: 14px;
+  }
+  #bodyPre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-height: 340px;
+    overflow-y: auto;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    margin: 6px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+  }
+  #noBodyMsg {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 12px;
+  }
+  .label-buttons {
+    margin-bottom: 10px;
+  }
+  .label-btn {
+    padding: 8px 16px;
+    font-weight: 600;
+    border-radius: 6px;
+  }
+  .label-btn[data-label="urgent"] { color: var(--urgent); border-color: var(--urgent); }
+  .label-btn[data-label="urgent"].active { background: var(--urgent); color: var(--urgent-fg); }
+  .label-btn[data-label="normal"] { color: var(--normal); border-color: var(--normal); }
+  .label-btn[data-label="normal"].active { background: var(--normal); color: var(--normal-fg); }
+  .label-btn[data-label="newsletter"] { color: var(--newsletter); border-color: var(--newsletter); }
+  .label-btn[data-label="newsletter"].active { background: var(--newsletter); color: var(--newsletter-fg); }
+
+  #noteInput {
+    width: 100%;
+    font: inherit;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--fg);
+  }
+  .nav-row {
+    justify-content: center;
+    margin-top: 14px;
+    gap: 16px;
+  }
+  footer {
+    margin-top: 16px;
+    justify-content: flex-start;
+  }
+  #unlabeledNote {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .hint {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Mail Triage - Label Tool</h1>
+<p class="subtitle">Offline JSONL labeling GUI. Nothing here is uploaded or stored - all data lives only in this browser tab.</p>
+
+<div class="row toolbar">
+  <div class="row">
+    <input type="file" id="fileInput" accept=".jsonl,text/plain">
+    <span id="fileInfo">No file loaded</span>
+  </div>
+  <div class="row">
+    <button id="downloadBtn" disabled>Download JSONL</button>
+    <span id="unlabeledNote" hidden></span>
+  </div>
+</div>
+
+<div id="unsavedWarning" class="bar warning">
+  <span class="msg">You have unsaved edits. Loading a new file will discard them.</span>
+  <button id="proceedLoadBtn">Load anyway</button>
+  <button id="cancelLoadBtn">Cancel</button>
+</div>
+
+<div id="parseError" class="bar error">
+  <span class="msg" id="parseErrorMsg"></span>
+  <button id="dismissErrorBtn">Dismiss</button>
+</div>
+
+<div class="row filter-bar" id="filterBar">
+  <button class="pill" data-filter="all">All (<span data-count="all">0</span>)</button>
+  <button class="pill" data-filter="unlabeled">Unlabeled (<span data-count="unlabeled">0</span>)</button>
+  <button class="pill pill-urgent" data-filter="urgent">urgent (<span data-count="urgent">0</span>)</button>
+  <button class="pill pill-normal" data-filter="normal">normal (<span data-count="normal">0</span>)</button>
+  <button class="pill pill-newsletter" data-filter="newsletter">newsletter (<span data-count="newsletter">0</span>)</button>
+</div>
+
+<div class="progress" id="progressLine">Labeled 0 of 0</div>
+
+<div id="emptyState">Load a .jsonl file to begin.</div>
+
+<div id="card" hidden>
+  <div class="row card-header">
+    <span id="positionCounter">0 / 0</span>
+    <span id="idEl"></span>
+  </div>
+  <div id="subjectEl"></div>
+  <div id="snippetEl"></div>
+
+  <div class="body-section">
+    <button id="showBodyBtn" hidden>Show body</button>
+    <span id="noBodyMsg" hidden>(no body)</span>
+    <pre id="bodyPre" hidden></pre>
+  </div>
+
+  <div class="row label-buttons">
+    <button class="label-btn" data-label="urgent">urgent</button>
+    <button class="label-btn" data-label="normal">normal</button>
+    <button class="label-btn" data-label="newsletter">newsletter</button>
+  </div>
+
+  <input type="text" id="noteInput" placeholder="Note (press n to focus, Escape to unfocus)">
+
+  <div class="row nav-row">
+    <button id="prevBtn">&larr; Prev</button>
+    <button id="nextBtn">Next &rarr;</button>
+  </div>
+  <p class="hint">Keys: 1 urgent, 2 normal, 3 newsletter (sets label and advances) - ArrowLeft/ArrowRight prev/next - n focus note - Escape unfocus note.</p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LABELS = ['urgent', 'normal', 'newsletter'];
+
+  // ---- Parsing / serialization (pure functions, no DOM access) ----
+
+  function ParseError(line, message) {
+    this.line = line;
+    this.message = 'line ' + line + ': ' + message;
+  }
+  ParseError.prototype = Object.create(Error.prototype);
+
+  // Parses JSONL text into an array of row objects:
+  // { id, subject, snippet, body, expected, note }
+  // body/note may be undefined; expected is always a string ('' means unlabeled).
+  // Throws ParseError on the first invalid line (aborts rather than silently
+  // dropping data, since a mislabeled row is worse than a failed load).
+  function parseJsonl(text) {
+    var lines = text.split(/\r\n|\r|\n/);
+    var rows = [];
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (line.trim() === '') continue;
+      var lineNo = i + 1;
+      var obj;
+      try {
+        obj = JSON.parse(line);
+      } catch (err) {
+        throw new ParseError(lineNo, 'invalid JSON (' + err.message + ')');
+      }
+      if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) {
+        throw new ParseError(lineNo, 'row is not a JSON object');
+      }
+      if (typeof obj.id !== 'string' || obj.id.length === 0) {
+        throw new ParseError(lineNo, 'missing or invalid "id"');
+      }
+      if (typeof obj.subject !== 'string') {
+        throw new ParseError(lineNo, 'missing or invalid "subject"');
+      }
+      if (typeof obj.snippet !== 'string') {
+        throw new ParseError(lineNo, 'missing or invalid "snippet"');
+      }
+      if (obj.body !== undefined && typeof obj.body !== 'string') {
+        throw new ParseError(lineNo, '"body" must be a string');
+      }
+      if (obj.note !== undefined && typeof obj.note !== 'string') {
+        throw new ParseError(lineNo, '"note" must be a string');
+      }
+      var expected = '';
+      if (obj.expected !== undefined) {
+        if (typeof obj.expected !== 'string' || (obj.expected !== '' && LABELS.indexOf(obj.expected) === -1)) {
+          throw new ParseError(lineNo, '"expected" must be "", "urgent", "normal", or "newsletter"');
+        }
+        expected = obj.expected;
+      }
+      rows.push({
+        id: obj.id,
+        subject: obj.subject,
+        snippet: obj.snippet,
+        body: obj.body,
+        expected: expected,
+        note: obj.note,
+      });
+    }
+    return rows;
+  }
+
+  // Serializes rows back to JSONL text (trailing newline), preserving field
+  // order id, subject, snippet, body, expected, note and omitting body/note
+  // when absent or empty. "expected" is always present, even as ''.
+  function serializeJsonl(rows) {
+    if (rows.length === 0) return '';
+    var lines = rows.map(function (row) {
+      var obj = { id: row.id, subject: row.subject, snippet: row.snippet };
+      if (row.body) obj.body = row.body;
+      obj.expected = row.expected || '';
+      if (row.note && row.note.trim() !== '') obj.note = row.note;
+      return JSON.stringify(obj);
+    });
+    return lines.join('\n') + '\n';
+  }
+
+  // ---- DOM references ----
+
+  var fileInput = document.getElementById('fileInput');
+  var fileInfo = document.getElementById('fileInfo');
+  var downloadBtn = document.getElementById('downloadBtn');
+  var unlabeledNote = document.getElementById('unlabeledNote');
+
+  var unsavedWarning = document.getElementById('unsavedWarning');
+  var proceedLoadBtn = document.getElementById('proceedLoadBtn');
+  var cancelLoadBtn = document.getElementById('cancelLoadBtn');
+
+  var parseErrorBar = document.getElementById('parseError');
+  var parseErrorMsg = document.getElementById('parseErrorMsg');
+  var dismissErrorBtn = document.getElementById('dismissErrorBtn');
+
+  var filterBar = document.getElementById('filterBar');
+  var progressLine = document.getElementById('progressLine');
+  var emptyState = document.getElementById('emptyState');
+
+  var card = document.getElementById('card');
+  var positionCounter = document.getElementById('positionCounter');
+  var idEl = document.getElementById('idEl');
+  var subjectEl = document.getElementById('subjectEl');
+  var snippetEl = document.getElementById('snippetEl');
+  var showBodyBtn = document.getElementById('showBodyBtn');
+  var noBodyMsg = document.getElementById('noBodyMsg');
+  var bodyPre = document.getElementById('bodyPre');
+  var noteInput = document.getElementById('noteInput');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var labelBtns = Array.prototype.slice.call(document.querySelectorAll('.label-btn'));
+
+  // ---- State (in-memory only - no localStorage, no network) ----
+
+  var state = {
+    rows: [],
+    fileName: '',
+    filter: 'all',
+    filteredIndices: [],
+    pos: 0,
+    dirty: false,
+  };
+  var bodyExpanded = false; // transient per-row UI state, reset on navigation
+  var pendingFile = null; // { text, name } awaiting confirmation over unsaved edits
+
+  // ---- Filtering helpers ----
+
+  function matchesFilter(row, filter) {
+    if (filter === 'all') return true;
+    if (filter === 'unlabeled') return !row.expected;
+    return row.expected === filter;
+  }
+
+  function computeFilteredIndices(filter) {
+    var out = [];
+    for (var i = 0; i < state.rows.length; i++) {
+      if (matchesFilter(state.rows[i], filter)) out.push(i);
+    }
+    return out;
+  }
+
+  // Recomputes filteredIndices for the current filter. If preserveAbsIdx is
+  // given and still present in the new subset, position stays on it;
+  // otherwise position is clamped into range.
+  function refreshFilter(preserveAbsIdx) {
+    state.filteredIndices = computeFilteredIndices(state.filter);
+    if (state.filteredIndices.length === 0) {
+      state.pos = 0;
+      return;
+    }
+    if (preserveAbsIdx !== undefined) {
+      var found = state.filteredIndices.indexOf(preserveAbsIdx);
+      state.pos = found !== -1 ? found : 0;
+    } else {
+      state.pos = Math.min(state.pos, state.filteredIndices.length - 1);
+    }
+  }
+
+  function currentRow() {
+    if (state.filteredIndices.length === 0) return null;
+    return state.rows[state.filteredIndices[state.pos]];
+  }
+
+  function computeCounts() {
+    var counts = { all: state.rows.length, unlabeled: 0, urgent: 0, normal: 0, newsletter: 0 };
+    for (var i = 0; i < state.rows.length; i++) {
+      var exp = state.rows[i].expected;
+      if (!exp) counts.unlabeled++;
+      else counts[exp]++;
+    }
+    return counts;
+  }
+
+  // ---- Rendering ----
+
+  function renderAll() {
+    var counts = computeCounts();
+    renderFilterBar(counts);
+    renderProgress(counts);
+    renderCard();
+    renderFooter(counts);
+  }
+
+  function renderFilterBar(counts) {
+    fileInfo.textContent = state.fileName
+      ? (state.fileName + ' - ' + state.rows.length + ' rows')
+      : 'No file loaded';
+    ['all', 'unlabeled', 'urgent', 'normal', 'newsletter'].forEach(function (key) {
+      var countEl = filterBar.querySelector('[data-count="' + key + '"]');
+      if (countEl) countEl.textContent = counts[key];
+      var btn = filterBar.querySelector('button[data-filter="' + key + '"]');
+      if (btn) btn.classList.toggle('active', state.filter === key);
+    });
+  }
+
+  function renderProgress(counts) {
+    var labeled = counts.all - counts.unlabeled;
+    progressLine.textContent = 'Labeled ' + labeled + ' of ' + counts.all;
+  }
+
+  function renderFooter(counts) {
+    if (counts.all > 0 && counts.unlabeled > 0) {
+      unlabeledNote.hidden = false;
+      unlabeledNote.textContent = counts.unlabeled + ' row' + (counts.unlabeled === 1 ? '' : 's') + ' still unlabeled';
+    } else {
+      unlabeledNote.hidden = true;
+    }
+    downloadBtn.disabled = state.rows.length === 0;
+  }
+
+  function renderCard() {
+    var row = currentRow();
+    if (!row) {
+      card.hidden = true;
+      emptyState.hidden = false;
+      emptyState.textContent = state.rows.length === 0
+        ? 'Load a .jsonl file to begin.'
+        : 'No rows match this filter.';
+      positionCounter.textContent = '0 / 0';
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      return;
+    }
+    card.hidden = false;
+    emptyState.hidden = true;
+    prevBtn.disabled = state.pos === 0;
+    nextBtn.disabled = state.pos === state.filteredIndices.length - 1;
+    positionCounter.textContent = (state.pos + 1) + ' / ' + state.filteredIndices.length;
+    idEl.textContent = row.id;
+    subjectEl.textContent = row.subject || '(no subject)';
+    snippetEl.textContent = row.snippet || '';
+    bodyExpanded = false;
+    renderBody(row);
+    labelBtns.forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.label === row.expected);
+    });
+    noteInput.value = row.note || '';
+  }
+
+  function renderBody(row) {
+    var body = (row && row.body) || '';
+    if (!body) {
+      noBodyMsg.hidden = false;
+      showBodyBtn.hidden = true;
+      bodyPre.hidden = true;
+      bodyPre.textContent = '';
+      return;
+    }
+    noBodyMsg.hidden = true;
+    if (body.length > 500) {
+      showBodyBtn.hidden = false;
+      showBodyBtn.textContent = bodyExpanded ? 'Hide body' : 'Show body';
+      bodyPre.hidden = !bodyExpanded;
+      bodyPre.textContent = bodyExpanded ? body : '';
+    } else {
+      showBodyBtn.hidden = true;
+      bodyPre.hidden = false;
+      bodyPre.textContent = body;
+    }
+  }
+
+  // ---- Navigation / labeling ----
+
+  function goPrev() {
+    if (state.filteredIndices.length === 0) return;
+    state.pos = Math.max(0, state.pos - 1);
+    renderAll();
+  }
+
+  function goNext() {
+    if (state.filteredIndices.length === 0) return;
+    state.pos = Math.min(state.filteredIndices.length - 1, state.pos + 1);
+    renderAll();
+  }
+
+  function setLabelAndAdvance(label) {
+    if (state.filteredIndices.length === 0) return;
+    var absIdx = state.filteredIndices[state.pos];
+    var row = state.rows[absIdx];
+    if (row.expected !== label) {
+      row.expected = label;
+      state.dirty = true;
+    }
+    // Recompute the filter subset (labeling may remove the row from it,
+    // e.g. leaving the "unlabeled" or a differently-labeled filter) and
+    // land on whatever now occupies the "next" slot.
+    var oldPos = state.pos;
+    state.filteredIndices = computeFilteredIndices(state.filter);
+    if (state.filteredIndices.length === 0) {
+      state.pos = 0;
+    } else {
+      var idxInNew = state.filteredIndices.indexOf(absIdx);
+      if (idxInNew === -1) {
+        // Row left the subset: whatever shifted into its old slot is "next".
+        state.pos = Math.min(oldPos, state.filteredIndices.length - 1);
+      } else {
+        // Row is still in the subset: advance past it.
+        state.pos = Math.min(idxInNew + 1, state.filteredIndices.length - 1);
+      }
+    }
+    renderAll();
+  }
+
+  // ---- File loading ----
+
+  function showUnsavedWarning() {
+    unsavedWarning.classList.add('visible');
+  }
+  function hideUnsavedWarning() {
+    unsavedWarning.classList.remove('visible');
+  }
+  function showParseError(message) {
+    parseErrorMsg.textContent = message;
+    parseErrorBar.classList.add('visible');
+  }
+  function hideParseError() {
+    parseErrorBar.classList.remove('visible');
+  }
+
+  function commitPendingFile() {
+    if (!pendingFile) return;
+    hideUnsavedWarning();
+    var file = pendingFile;
+    pendingFile = null;
+    try {
+      var rows = parseJsonl(file.text);
+      state.rows = rows;
+      state.fileName = file.name;
+      state.filter = 'all';
+      state.dirty = false;
+      state.pos = 0; // always start at the first row of a freshly loaded file
+      hideParseError();
+      refreshFilter();
+      renderAll();
+    } catch (err) {
+      showParseError('Failed to parse "' + file.name + '": ' + err.message);
+    }
+  }
+
+  fileInput.addEventListener('change', function (e) {
+    var file = e.target.files && e.target.files[0];
+    // Clear immediately so re-selecting the same file later still fires 'change'.
+    fileInput.value = '';
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      pendingFile = { text: String(reader.result), name: file.name };
+      if (state.dirty) {
+        showUnsavedWarning();
+      } else {
+        commitPendingFile();
+      }
+    };
+    reader.onerror = function () {
+      showParseError('Could not read file "' + file.name + '": ' + (reader.error ? reader.error.message : 'unknown error'));
+    };
+    reader.readAsText(file);
+  });
+
+  proceedLoadBtn.addEventListener('click', commitPendingFile);
+  cancelLoadBtn.addEventListener('click', function () {
+    pendingFile = null;
+    hideUnsavedWarning();
+  });
+  dismissErrorBtn.addEventListener('click', hideParseError);
+
+  // ---- Export ----
+
+  function triggerDownload() {
+    var text = serializeJsonl(state.rows);
+    var blob = new Blob([text], { type: 'application/jsonl' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'real.labeled.jsonl';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    state.dirty = false;
+  }
+  downloadBtn.addEventListener('click', triggerDownload);
+
+  // ---- Filter bar clicks ----
+
+  filterBar.addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-filter]');
+    if (!btn) return;
+    var currentAbsIdx = state.filteredIndices.length ? state.filteredIndices[state.pos] : undefined;
+    state.filter = btn.dataset.filter;
+    refreshFilter(currentAbsIdx);
+    renderAll();
+  });
+
+  // ---- Card controls ----
+
+  prevBtn.addEventListener('click', goPrev);
+  nextBtn.addEventListener('click', goNext);
+  labelBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () { setLabelAndAdvance(btn.dataset.label); });
+  });
+  showBodyBtn.addEventListener('click', function () {
+    bodyExpanded = !bodyExpanded;
+    renderBody(currentRow());
+  });
+  noteInput.addEventListener('input', function () {
+    if (state.filteredIndices.length === 0) return;
+    var absIdx = state.filteredIndices[state.pos];
+    state.rows[absIdx].note = noteInput.value;
+    state.dirty = true;
+  });
+
+  // ---- Keyboard shortcuts ----
+
+  document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+    if (e.key === 'Escape') {
+      if (document.activeElement === noteInput) noteInput.blur();
+      return;
+    }
+
+    // Never hijack keys while the user is typing a note (digits, arrows,
+    // and 'n' must behave as normal text input there).
+    if (document.activeElement === noteInput) return;
+
+    switch (e.key) {
+      case '1': setLabelAndAdvance('urgent'); break;
+      case '2': setLabelAndAdvance('normal'); break;
+      case '3': setLabelAndAdvance('newsletter'); break;
+      case 'ArrowLeft': e.preventDefault(); goPrev(); break;
+      case 'ArrowRight': e.preventDefault(); goNext(); break;
+      case 'n':
+      case 'N':
+        e.preventDefault();
+        noteInput.focus();
+        break;
+      default: break;
+    }
+  });
+
+  // ---- Unsaved-edit protection ----
+
+  window.addEventListener('beforeunload', function (e) {
+    if (state.dirty) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  // ---- Initial render ----
+
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
