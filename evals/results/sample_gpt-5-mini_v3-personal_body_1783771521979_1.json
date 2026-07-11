@@ -1,0 +1,180 @@
+{
+  "dataset": "sample",
+  "model": "gpt-5-mini",
+  "promptVersion": "v3-personal",
+  "inputVariant": "body",
+  "runId": "sample_gpt-5-mini_v3-personal_body_1783771521979_1",
+  "startedAt": "2026-07-11T12:05:21.979Z",
+  "metrics": {
+    "total": 12,
+    "correct": 11,
+    "accuracy": 0.9166666666666666,
+    "errors": 0,
+    "confusion": {
+      "urgent": {
+        "urgent": 4,
+        "normal": 0,
+        "newsletter": 0,
+        "error": 0
+      },
+      "normal": {
+        "urgent": 1,
+        "normal": 3,
+        "newsletter": 0,
+        "error": 0
+      },
+      "newsletter": {
+        "urgent": 0,
+        "normal": 0,
+        "newsletter": 4,
+        "error": 0
+      }
+    },
+    "perClass": {
+      "urgent": {
+        "recall": 1,
+        "precision": 0.8,
+        "support": 4
+      },
+      "normal": {
+        "recall": 0.75,
+        "precision": 1,
+        "support": 4
+      },
+      "newsletter": {
+        "recall": 1,
+        "precision": 1,
+        "support": 4
+      }
+    },
+    "urgentRecall": 1,
+    "newsletterPrecision": 1
+  },
+  "costUsdPer1000": 0.41577083333333326,
+  "latency": {
+    "p50": 1920,
+    "p95": 3577
+  },
+  "cases": [
+    {
+      "id": "s01",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2329,
+      "usage": {
+        "inputTokens": 613,
+        "outputTokens": 156
+      }
+    },
+    {
+      "id": "s02",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2725,
+      "usage": {
+        "inputTokens": 613,
+        "outputTokens": 127
+      }
+    },
+    {
+      "id": "s03",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2030,
+      "usage": {
+        "inputTokens": 613,
+        "outputTokens": 190
+      }
+    },
+    {
+      "id": "s04",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 2026,
+      "usage": {
+        "inputTokens": 614,
+        "outputTokens": 146
+      }
+    },
+    {
+      "id": "s05",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1280,
+      "usage": {
+        "inputTokens": 604,
+        "outputTokens": 78
+      }
+    },
+    {
+      "id": "s06",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 3577,
+      "usage": {
+        "inputTokens": 608,
+        "outputTokens": 345
+      }
+    },
+    {
+      "id": "s07",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1540,
+      "usage": {
+        "inputTokens": 605,
+        "outputTokens": 104
+      }
+    },
+    {
+      "id": "s08",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1976,
+      "usage": {
+        "inputTokens": 612,
+        "outputTokens": 96
+      }
+    },
+    {
+      "id": "s09",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1920,
+      "usage": {
+        "inputTokens": 607,
+        "outputTokens": 67
+      }
+    },
+    {
+      "id": "s10",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1502,
+      "usage": {
+        "inputTokens": 610,
+        "outputTokens": 69
+      }
+    },
+    {
+      "id": "s11",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1500,
+      "usage": {
+        "inputTokens": 606,
+        "outputTokens": 101
+      }
+    },
+    {
+      "id": "s12",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1603,
+      "usage": {
+        "inputTokens": 636,
+        "outputTokens": 98
+      }
+    }
+  ]
+}

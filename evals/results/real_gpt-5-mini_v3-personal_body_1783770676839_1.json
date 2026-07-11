@@ -1,0 +1,1820 @@
+{
+  "dataset": "real",
+  "model": "gpt-5-mini",
+  "promptVersion": "v3-personal",
+  "inputVariant": "body",
+  "runId": "real_gpt-5-mini_v3-personal_body_1783770676839_1",
+  "startedAt": "2026-07-11T11:51:16.839Z",
+  "metrics": {
+    "total": 176,
+    "correct": 158,
+    "accuracy": 0.8977272727272727,
+    "errors": 0,
+    "confusion": {
+      "urgent": {
+        "urgent": 19,
+        "normal": 0,
+        "newsletter": 0,
+        "error": 0
+      },
+      "normal": {
+        "urgent": 11,
+        "normal": 17,
+        "newsletter": 3,
+        "error": 0
+      },
+      "newsletter": {
+        "urgent": 0,
+        "normal": 4,
+        "newsletter": 122,
+        "error": 0
+      }
+    },
+    "perClass": {
+      "urgent": {
+        "recall": 1,
+        "precision": 0.6333333333333333,
+        "support": 19
+      },
+      "normal": {
+        "recall": 0.5483870967741935,
+        "precision": 0.8095238095238095,
+        "support": 31
+      },
+      "newsletter": {
+        "recall": 0.9682539682539683,
+        "precision": 0.976,
+        "support": 126
+      }
+    },
+    "urgentRecall": 1,
+    "newsletterPrecision": 0.976
+  },
+  "costUsdPer1000": 0.6328110795454548,
+  "latency": {
+    "p50": 2160,
+    "p95": 5380
+  },
+  "cases": [
+    {
+      "id": "77b287b8d1ed",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4654,
+      "usage": {
+        "inputTokens": 997,
+        "outputTokens": 270
+      }
+    },
+    {
+      "id": "4f39b78b9aa4",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 5380,
+      "usage": {
+        "inputTokens": 777,
+        "outputTokens": 358
+      }
+    },
+    {
+      "id": "6ea6ba32f4bb",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3252,
+      "usage": {
+        "inputTokens": 1630,
+        "outputTokens": 126
+      }
+    },
+    {
+      "id": "c5d110b6ba11",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2450,
+      "usage": {
+        "inputTokens": 2162,
+        "outputTokens": 113
+      }
+    },
+    {
+      "id": "e58db501c2c1",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1684,
+      "usage": {
+        "inputTokens": 1131,
+        "outputTokens": 91
+      }
+    },
+    {
+      "id": "1aa75635a010",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3471,
+      "usage": {
+        "inputTokens": 645,
+        "outputTokens": 250
+      }
+    },
+    {
+      "id": "d500d087f38e",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2251,
+      "usage": {
+        "inputTokens": 1621,
+        "outputTokens": 119
+      }
+    },
+    {
+      "id": "a8a9313ae203",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2229,
+      "usage": {
+        "inputTokens": 1512,
+        "outputTokens": 148
+      }
+    },
+    {
+      "id": "86443f4bb803",
+      "expected": "normal",
+      "predicted": "newsletter",
+      "latencyMs": 2028,
+      "usage": {
+        "inputTokens": 1273,
+        "outputTokens": 105
+      }
+    },
+    {
+      "id": "409258e497e7",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1909,
+      "usage": {
+        "inputTokens": 1653,
+        "outputTokens": 91
+      }
+    },
+    {
+      "id": "1e5c889c7866",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1683,
+      "usage": {
+        "inputTokens": 1704,
+        "outputTokens": 98
+      }
+    },
+    {
+      "id": "d563eda4b8b6",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 6520,
+      "usage": {
+        "inputTokens": 651,
+        "outputTokens": 354
+      }
+    },
+    {
+      "id": "d2905d7cf492",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1406,
+      "usage": {
+        "inputTokens": 1245,
+        "outputTokens": 78
+      }
+    },
+    {
+      "id": "050cc5f7679e",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2473,
+      "usage": {
+        "inputTokens": 1926,
+        "outputTokens": 188
+      }
+    },
+    {
+      "id": "3f2667b64c41",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2043,
+      "usage": {
+        "inputTokens": 1749,
+        "outputTokens": 89
+      }
+    },
+    {
+      "id": "d7d61bd12caf",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1819,
+      "usage": {
+        "inputTokens": 1223,
+        "outputTokens": 109
+      }
+    },
+    {
+      "id": "3ba20a08b9cf",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1847,
+      "usage": {
+        "inputTokens": 627,
+        "outputTokens": 121
+      }
+    },
+    {
+      "id": "f5a295ed235a",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1845,
+      "usage": {
+        "inputTokens": 1648,
+        "outputTokens": 123
+      }
+    },
+    {
+      "id": "1d9d6c879b65",
+      "expected": "normal",
+      "predicted": "newsletter",
+      "latencyMs": 4193,
+      "usage": {
+        "inputTokens": 1053,
+        "outputTokens": 355
+      }
+    },
+    {
+      "id": "b7b344fed15a",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 4645,
+      "usage": {
+        "inputTokens": 1002,
+        "outputTokens": 389
+      }
+    },
+    {
+      "id": "6d5581ec1846",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1399,
+      "usage": {
+        "inputTokens": 1162,
+        "outputTokens": 80
+      }
+    },
+    {
+      "id": "08f8aa8450a2",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3748,
+      "usage": {
+        "inputTokens": 651,
+        "outputTokens": 255
+      }
+    },
+    {
+      "id": "a8a1faf4c768",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1886,
+      "usage": {
+        "inputTokens": 1856,
+        "outputTokens": 109
+      }
+    },
+    {
+      "id": "fb25650afde0",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1813,
+      "usage": {
+        "inputTokens": 1596,
+        "outputTokens": 82
+      }
+    },
+    {
+      "id": "7bd1c5e3b626",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1666,
+      "usage": {
+        "inputTokens": 637,
+        "outputTokens": 98
+      }
+    },
+    {
+      "id": "a7973b0e0daf",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1854,
+      "usage": {
+        "inputTokens": 1228,
+        "outputTokens": 93
+      }
+    },
+    {
+      "id": "f7b7dafef9bb",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1816,
+      "usage": {
+        "inputTokens": 1274,
+        "outputTokens": 109
+      }
+    },
+    {
+      "id": "3de74ccd4617",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1614,
+      "usage": {
+        "inputTokens": 841,
+        "outputTokens": 93
+      }
+    },
+    {
+      "id": "20c2f96ae2a7",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2012,
+      "usage": {
+        "inputTokens": 1928,
+        "outputTokens": 132
+      }
+    },
+    {
+      "id": "99982b6a667b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2042,
+      "usage": {
+        "inputTokens": 1706,
+        "outputTokens": 114
+      }
+    },
+    {
+      "id": "a6eb71b99330",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2128,
+      "usage": {
+        "inputTokens": 1644,
+        "outputTokens": 142
+      }
+    },
+    {
+      "id": "32d1f68e07aa",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3564,
+      "usage": {
+        "inputTokens": 640,
+        "outputTokens": 86
+      }
+    },
+    {
+      "id": "05403dee2225",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2916,
+      "usage": {
+        "inputTokens": 828,
+        "outputTokens": 226
+      }
+    },
+    {
+      "id": "06d54f55bc53",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2348,
+      "usage": {
+        "inputTokens": 1579,
+        "outputTokens": 87
+      }
+    },
+    {
+      "id": "48fbb5ce1c43",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1482,
+      "usage": {
+        "inputTokens": 1394,
+        "outputTokens": 76
+      }
+    },
+    {
+      "id": "f84164ac1678",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1744,
+      "usage": {
+        "inputTokens": 1922,
+        "outputTokens": 93
+      }
+    },
+    {
+      "id": "6d10f8c155f2",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1787,
+      "usage": {
+        "inputTokens": 1366,
+        "outputTokens": 112
+      }
+    },
+    {
+      "id": "e8ad80ac7f89",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 5133,
+      "usage": {
+        "inputTokens": 1083,
+        "outputTokens": 313
+      }
+    },
+    {
+      "id": "5496e557f588",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4091,
+      "usage": {
+        "inputTokens": 1032,
+        "outputTokens": 289
+      }
+    },
+    {
+      "id": "b91db861618f",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4021,
+      "usage": {
+        "inputTokens": 960,
+        "outputTokens": 329
+      }
+    },
+    {
+      "id": "3aaa91a251f1",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2520,
+      "usage": {
+        "inputTokens": 787,
+        "outputTokens": 163
+      }
+    },
+    {
+      "id": "fbe6651000d0",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1450,
+      "usage": {
+        "inputTokens": 1195,
+        "outputTokens": 75
+      }
+    },
+    {
+      "id": "e8d827c3637e",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2336,
+      "usage": {
+        "inputTokens": 680,
+        "outputTokens": 150
+      }
+    },
+    {
+      "id": "09e6e42ad118",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 5926,
+      "usage": {
+        "inputTokens": 1630,
+        "outputTokens": 95
+      }
+    },
+    {
+      "id": "7711aeec36fe",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2054,
+      "usage": {
+        "inputTokens": 1658,
+        "outputTokens": 146
+      }
+    },
+    {
+      "id": "230b9e0bdfcf",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1871,
+      "usage": {
+        "inputTokens": 751,
+        "outputTokens": 102
+      }
+    },
+    {
+      "id": "6fa71c24bb8b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2045,
+      "usage": {
+        "inputTokens": 1617,
+        "outputTokens": 78
+      }
+    },
+    {
+      "id": "20948294c860",
+      "expected": "newsletter",
+      "predicted": "normal",
+      "latencyMs": 3294,
+      "usage": {
+        "inputTokens": 651,
+        "outputTokens": 258
+      }
+    },
+    {
+      "id": "07f2cac3c3bd",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2952,
+      "usage": {
+        "inputTokens": 1888,
+        "outputTokens": 135
+      }
+    },
+    {
+      "id": "d387d97092ef",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2322,
+      "usage": {
+        "inputTokens": 1211,
+        "outputTokens": 71
+      }
+    },
+    {
+      "id": "97120aa1a0ff",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3686,
+      "usage": {
+        "inputTokens": 1592,
+        "outputTokens": 106
+      }
+    },
+    {
+      "id": "f67e720f30ea",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3429,
+      "usage": {
+        "inputTokens": 1587,
+        "outputTokens": 81
+      }
+    },
+    {
+      "id": "4501a4aa8098",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3160,
+      "usage": {
+        "inputTokens": 632,
+        "outputTokens": 230
+      }
+    },
+    {
+      "id": "0cc54f0fb161",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1641,
+      "usage": {
+        "inputTokens": 1259,
+        "outputTokens": 79
+      }
+    },
+    {
+      "id": "b2add7c979ea",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1590,
+      "usage": {
+        "inputTokens": 783,
+        "outputTokens": 97
+      }
+    },
+    {
+      "id": "522ce64c2385",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2244,
+      "usage": {
+        "inputTokens": 1014,
+        "outputTokens": 136
+      }
+    },
+    {
+      "id": "0018b81f530b",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 6906,
+      "usage": {
+        "inputTokens": 1273,
+        "outputTokens": 379
+      }
+    },
+    {
+      "id": "9f538156804d",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2528,
+      "usage": {
+        "inputTokens": 782,
+        "outputTokens": 146
+      }
+    },
+    {
+      "id": "5d28633e6221",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1789,
+      "usage": {
+        "inputTokens": 1258,
+        "outputTokens": 103
+      }
+    },
+    {
+      "id": "35be8150662f",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 4027,
+      "usage": {
+        "inputTokens": 828,
+        "outputTokens": 150
+      }
+    },
+    {
+      "id": "a8de6a35a381",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2323,
+      "usage": {
+        "inputTokens": 663,
+        "outputTokens": 157
+      }
+    },
+    {
+      "id": "12274099f4bc",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1833,
+      "usage": {
+        "inputTokens": 1584,
+        "outputTokens": 97
+      }
+    },
+    {
+      "id": "d961f9c7821f",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2036,
+      "usage": {
+        "inputTokens": 1727,
+        "outputTokens": 145
+      }
+    },
+    {
+      "id": "55ededb4dffc",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1904,
+      "usage": {
+        "inputTokens": 657,
+        "outputTokens": 121
+      }
+    },
+    {
+      "id": "274eb5db5f91",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1989,
+      "usage": {
+        "inputTokens": 1922,
+        "outputTokens": 110
+      }
+    },
+    {
+      "id": "f35771977c4c",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3087,
+      "usage": {
+        "inputTokens": 825,
+        "outputTokens": 212
+      }
+    },
+    {
+      "id": "672ad4fab3d3",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2666,
+      "usage": {
+        "inputTokens": 666,
+        "outputTokens": 200
+      }
+    },
+    {
+      "id": "c998c7d9aac1",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1465,
+      "usage": {
+        "inputTokens": 1328,
+        "outputTokens": 90
+      }
+    },
+    {
+      "id": "74f3fec1838d",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2250,
+      "usage": {
+        "inputTokens": 634,
+        "outputTokens": 162
+      }
+    },
+    {
+      "id": "f193cb41dd2e",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2898,
+      "usage": {
+        "inputTokens": 636,
+        "outputTokens": 223
+      }
+    },
+    {
+      "id": "f5c627cd4299",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2744,
+      "usage": {
+        "inputTokens": 674,
+        "outputTokens": 199
+      }
+    },
+    {
+      "id": "441bd722391e",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2494,
+      "usage": {
+        "inputTokens": 669,
+        "outputTokens": 173
+      }
+    },
+    {
+      "id": "420b98c64759",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1745,
+      "usage": {
+        "inputTokens": 1752,
+        "outputTokens": 87
+      }
+    },
+    {
+      "id": "1389c3548ddc",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2288,
+      "usage": {
+        "inputTokens": 828,
+        "outputTokens": 155
+      }
+    },
+    {
+      "id": "62d90dfd17c7",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1805,
+      "usage": {
+        "inputTokens": 1660,
+        "outputTokens": 119
+      }
+    },
+    {
+      "id": "8328f5559f6a",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2262,
+      "usage": {
+        "inputTokens": 657,
+        "outputTokens": 162
+      }
+    },
+    {
+      "id": "d2a03aa13ae4",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2562,
+      "usage": {
+        "inputTokens": 1923,
+        "outputTokens": 161
+      }
+    },
+    {
+      "id": "913ba135cce6",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1919,
+      "usage": {
+        "inputTokens": 1929,
+        "outputTokens": 105
+      }
+    },
+    {
+      "id": "3977bc7c86a3",
+      "expected": "newsletter",
+      "predicted": "normal",
+      "latencyMs": 5773,
+      "usage": {
+        "inputTokens": 634,
+        "outputTokens": 459
+      }
+    },
+    {
+      "id": "5ceb442515f7",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1687,
+      "usage": {
+        "inputTokens": 703,
+        "outputTokens": 101
+      }
+    },
+    {
+      "id": "65b5e01b291f",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2568,
+      "usage": {
+        "inputTokens": 703,
+        "outputTokens": 94
+      }
+    },
+    {
+      "id": "3731c5c8cafe",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 3894,
+      "usage": {
+        "inputTokens": 669,
+        "outputTokens": 331
+      }
+    },
+    {
+      "id": "8ee398d35ab3",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 4737,
+      "usage": {
+        "inputTokens": 654,
+        "outputTokens": 441
+      }
+    },
+    {
+      "id": "9085d3bd1db9",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1409,
+      "usage": {
+        "inputTokens": 693,
+        "outputTokens": 86
+      }
+    },
+    {
+      "id": "fe6969e6cb72",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2028,
+      "usage": {
+        "inputTokens": 1630,
+        "outputTokens": 126
+      }
+    },
+    {
+      "id": "6e7614f76938",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3596,
+      "usage": {
+        "inputTokens": 1873,
+        "outputTokens": 81
+      }
+    },
+    {
+      "id": "a6bd3878ed43",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1574,
+      "usage": {
+        "inputTokens": 1264,
+        "outputTokens": 94
+      }
+    },
+    {
+      "id": "493d0936ea11",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3789,
+      "usage": {
+        "inputTokens": 777,
+        "outputTokens": 357
+      }
+    },
+    {
+      "id": "3e52073663fc",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2055,
+      "usage": {
+        "inputTokens": 1699,
+        "outputTokens": 126
+      }
+    },
+    {
+      "id": "34372156515c",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2033,
+      "usage": {
+        "inputTokens": 1545,
+        "outputTokens": 128
+      }
+    },
+    {
+      "id": "d720f263a37b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1789,
+      "usage": {
+        "inputTokens": 814,
+        "outputTokens": 101
+      }
+    },
+    {
+      "id": "a64644b0e3f3",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1897,
+      "usage": {
+        "inputTokens": 828,
+        "outputTokens": 133
+      }
+    },
+    {
+      "id": "e20576b7b611",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1548,
+      "usage": {
+        "inputTokens": 1691,
+        "outputTokens": 89
+      }
+    },
+    {
+      "id": "e98bd8322423",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1869,
+      "usage": {
+        "inputTokens": 630,
+        "outputTokens": 83
+      }
+    },
+    {
+      "id": "17da35a2b5bb",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1475,
+      "usage": {
+        "inputTokens": 1760,
+        "outputTokens": 81
+      }
+    },
+    {
+      "id": "5d9cf2d0cb7f",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 5440,
+      "usage": {
+        "inputTokens": 2062,
+        "outputTokens": 160
+      }
+    },
+    {
+      "id": "50935b3cd3bd",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2932,
+      "usage": {
+        "inputTokens": 649,
+        "outputTokens": 230
+      }
+    },
+    {
+      "id": "6aad77ff0e12",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1725,
+      "usage": {
+        "inputTokens": 1206,
+        "outputTokens": 87
+      }
+    },
+    {
+      "id": "4415941d3872",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2331,
+      "usage": {
+        "inputTokens": 1846,
+        "outputTokens": 166
+      }
+    },
+    {
+      "id": "14b76358c7e1",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1924,
+      "usage": {
+        "inputTokens": 674,
+        "outputTokens": 108
+      }
+    },
+    {
+      "id": "8c3c48c80645",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1959,
+      "usage": {
+        "inputTokens": 1855,
+        "outputTokens": 134
+      }
+    },
+    {
+      "id": "98d381bdacdd",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3290,
+      "usage": {
+        "inputTokens": 1003,
+        "outputTokens": 248
+      }
+    },
+    {
+      "id": "0a402fedd5ca",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1919,
+      "usage": {
+        "inputTokens": 828,
+        "outputTokens": 131
+      }
+    },
+    {
+      "id": "251f400cb1c4",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4492,
+      "usage": {
+        "inputTokens": 647,
+        "outputTokens": 348
+      }
+    },
+    {
+      "id": "f07d5b2b1782",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3440,
+      "usage": {
+        "inputTokens": 1272,
+        "outputTokens": 99
+      }
+    },
+    {
+      "id": "58ccfaf9f13a",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 4523,
+      "usage": {
+        "inputTokens": 1005,
+        "outputTokens": 391
+      }
+    },
+    {
+      "id": "f15fb3acdfd9",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 5179,
+      "usage": {
+        "inputTokens": 1005,
+        "outputTokens": 393
+      }
+    },
+    {
+      "id": "41c5347decf8",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2309,
+      "usage": {
+        "inputTokens": 1610,
+        "outputTokens": 174
+      }
+    },
+    {
+      "id": "5ee90bdfd665",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3199,
+      "usage": {
+        "inputTokens": 1661,
+        "outputTokens": 83
+      }
+    },
+    {
+      "id": "36d6cb0d91db",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1983,
+      "usage": {
+        "inputTokens": 1413,
+        "outputTokens": 116
+      }
+    },
+    {
+      "id": "e7ec7cecc016",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3573,
+      "usage": {
+        "inputTokens": 854,
+        "outputTokens": 270
+      }
+    },
+    {
+      "id": "7131cc032581",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 5676,
+      "usage": {
+        "inputTokens": 823,
+        "outputTokens": 159
+      }
+    },
+    {
+      "id": "d3831acb6531",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1835,
+      "usage": {
+        "inputTokens": 1625,
+        "outputTokens": 116
+      }
+    },
+    {
+      "id": "b93c1a68e7ab",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1905,
+      "usage": {
+        "inputTokens": 1120,
+        "outputTokens": 123
+      }
+    },
+    {
+      "id": "d4a696c54cdd",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2048,
+      "usage": {
+        "inputTokens": 1651,
+        "outputTokens": 109
+      }
+    },
+    {
+      "id": "df23f4888e0e",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1767,
+      "usage": {
+        "inputTokens": 1243,
+        "outputTokens": 104
+      }
+    },
+    {
+      "id": "bfb6ec10cd9a",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2070,
+      "usage": {
+        "inputTokens": 1767,
+        "outputTokens": 112
+      }
+    },
+    {
+      "id": "0aff3060e411",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4184,
+      "usage": {
+        "inputTokens": 647,
+        "outputTokens": 339
+      }
+    },
+    {
+      "id": "ffcf3d304095",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2801,
+      "usage": {
+        "inputTokens": 1864,
+        "outputTokens": 202
+      }
+    },
+    {
+      "id": "d16409104285",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2593,
+      "usage": {
+        "inputTokens": 1920,
+        "outputTokens": 175
+      }
+    },
+    {
+      "id": "c0e104914430",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2047,
+      "usage": {
+        "inputTokens": 1663,
+        "outputTokens": 145
+      }
+    },
+    {
+      "id": "67bc14ddd396",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1463,
+      "usage": {
+        "inputTokens": 1692,
+        "outputTokens": 89
+      }
+    },
+    {
+      "id": "be6cf19c1adc",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1814,
+      "usage": {
+        "inputTokens": 646,
+        "outputTokens": 115
+      }
+    },
+    {
+      "id": "089c3f2eac0f",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1541,
+      "usage": {
+        "inputTokens": 1091,
+        "outputTokens": 83
+      }
+    },
+    {
+      "id": "a8c59bfa5d17",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1916,
+      "usage": {
+        "inputTokens": 894,
+        "outputTokens": 143
+      }
+    },
+    {
+      "id": "f76f7570ced7",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1808,
+      "usage": {
+        "inputTokens": 1296,
+        "outputTokens": 84
+      }
+    },
+    {
+      "id": "031f8d4b7fdb",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 3335,
+      "usage": {
+        "inputTokens": 1522,
+        "outputTokens": 220
+      }
+    },
+    {
+      "id": "8c33c838311a",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 9220,
+      "usage": {
+        "inputTokens": 647,
+        "outputTokens": 336
+      }
+    },
+    {
+      "id": "24929fe567ab",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3170,
+      "usage": {
+        "inputTokens": 644,
+        "outputTokens": 234
+      }
+    },
+    {
+      "id": "b3b7492a16fd",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1478,
+      "usage": {
+        "inputTokens": 2019,
+        "outputTokens": 86
+      }
+    },
+    {
+      "id": "13f672a303ab",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1373,
+      "usage": {
+        "inputTokens": 1788,
+        "outputTokens": 84
+      }
+    },
+    {
+      "id": "17a250508d26",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 3605,
+      "usage": {
+        "inputTokens": 1249,
+        "outputTokens": 243
+      }
+    },
+    {
+      "id": "13902f97c917",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1714,
+      "usage": {
+        "inputTokens": 1266,
+        "outputTokens": 82
+      }
+    },
+    {
+      "id": "cc62bbc5bfbb",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3213,
+      "usage": {
+        "inputTokens": 1138,
+        "outputTokens": 217
+      }
+    },
+    {
+      "id": "8fcb28f0a102",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2159,
+      "usage": {
+        "inputTokens": 1733,
+        "outputTokens": 148
+      }
+    },
+    {
+      "id": "c09126f80d27",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2126,
+      "usage": {
+        "inputTokens": 642,
+        "outputTokens": 139
+      }
+    },
+    {
+      "id": "5df0c19cbf34",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1322,
+      "usage": {
+        "inputTokens": 1557,
+        "outputTokens": 72
+      }
+    },
+    {
+      "id": "228e5bfc7e92",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1752,
+      "usage": {
+        "inputTokens": 1723,
+        "outputTokens": 109
+      }
+    },
+    {
+      "id": "b0c0b244383b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2664,
+      "usage": {
+        "inputTokens": 647,
+        "outputTokens": 192
+      }
+    },
+    {
+      "id": "1907243e6caf",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3439,
+      "usage": {
+        "inputTokens": 1420,
+        "outputTokens": 219
+      }
+    },
+    {
+      "id": "d447a6333cb1",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1513,
+      "usage": {
+        "inputTokens": 1883,
+        "outputTokens": 88
+      }
+    },
+    {
+      "id": "40adf6e28677",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1568,
+      "usage": {
+        "inputTokens": 1241,
+        "outputTokens": 78
+      }
+    },
+    {
+      "id": "6f37efc41185",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2166,
+      "usage": {
+        "inputTokens": 1729,
+        "outputTokens": 91
+      }
+    },
+    {
+      "id": "f97fe743e7b5",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 3330,
+      "usage": {
+        "inputTokens": 706,
+        "outputTokens": 244
+      }
+    },
+    {
+      "id": "3a2bf8385f4b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2449,
+      "usage": {
+        "inputTokens": 829,
+        "outputTokens": 192
+      }
+    },
+    {
+      "id": "e99e5c456131",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3643,
+      "usage": {
+        "inputTokens": 1561,
+        "outputTokens": 325
+      }
+    },
+    {
+      "id": "0729b7923a5f",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1350,
+      "usage": {
+        "inputTokens": 1991,
+        "outputTokens": 69
+      }
+    },
+    {
+      "id": "883268b6e4ee",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4469,
+      "usage": {
+        "inputTokens": 1454,
+        "outputTokens": 371
+      }
+    },
+    {
+      "id": "51ce00a909c1",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3104,
+      "usage": {
+        "inputTokens": 1148,
+        "outputTokens": 267
+      }
+    },
+    {
+      "id": "647518eaeba1",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 4939,
+      "usage": {
+        "inputTokens": 1095,
+        "outputTokens": 413
+      }
+    },
+    {
+      "id": "f2a58a4e9bb1",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2911,
+      "usage": {
+        "inputTokens": 1653,
+        "outputTokens": 187
+      }
+    },
+    {
+      "id": "c025a018e74d",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1651,
+      "usage": {
+        "inputTokens": 1893,
+        "outputTokens": 81
+      }
+    },
+    {
+      "id": "c740774898db",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 4236,
+      "usage": {
+        "inputTokens": 666,
+        "outputTokens": 306
+      }
+    },
+    {
+      "id": "aa26b5f77041",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2251,
+      "usage": {
+        "inputTokens": 823,
+        "outputTokens": 182
+      }
+    },
+    {
+      "id": "6a9e02550c5a",
+      "expected": "newsletter",
+      "predicted": "normal",
+      "latencyMs": 2855,
+      "usage": {
+        "inputTokens": 634,
+        "outputTokens": 203
+      }
+    },
+    {
+      "id": "8342b69a5ba2",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 3390,
+      "usage": {
+        "inputTokens": 634,
+        "outputTokens": 271
+      }
+    },
+    {
+      "id": "ab656257ef53",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1522,
+      "usage": {
+        "inputTokens": 707,
+        "outputTokens": 81
+      }
+    },
+    {
+      "id": "03e22f4a18a1",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1537,
+      "usage": {
+        "inputTokens": 707,
+        "outputTokens": 92
+      }
+    },
+    {
+      "id": "59ecddaa5d03",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2539,
+      "usage": {
+        "inputTokens": 673,
+        "outputTokens": 164
+      }
+    },
+    {
+      "id": "e13b63b2c422",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 5843,
+      "usage": {
+        "inputTokens": 654,
+        "outputTokens": 511
+      }
+    },
+    {
+      "id": "20d6fabffb56",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 2160,
+      "usage": {
+        "inputTokens": 709,
+        "outputTokens": 154
+      }
+    },
+    {
+      "id": "a4a2f622dfe5",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1478,
+      "usage": {
+        "inputTokens": 693,
+        "outputTokens": 84
+      }
+    },
+    {
+      "id": "181a060d9eff",
+      "expected": "normal",
+      "predicted": "urgent",
+      "latencyMs": 4158,
+      "usage": {
+        "inputTokens": 687,
+        "outputTokens": 324
+      }
+    },
+    {
+      "id": "4047da3d2478",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1807,
+      "usage": {
+        "inputTokens": 697,
+        "outputTokens": 125
+      }
+    },
+    {
+      "id": "7e6e037c59c2",
+      "expected": "normal",
+      "predicted": "normal",
+      "latencyMs": 1457,
+      "usage": {
+        "inputTokens": 644,
+        "outputTokens": 91
+      }
+    },
+    {
+      "id": "a40669ce4d3b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 4464,
+      "usage": {
+        "inputTokens": 662,
+        "outputTokens": 268
+      }
+    },
+    {
+      "id": "f5ba39cf62f5",
+      "expected": "urgent",
+      "predicted": "urgent",
+      "latencyMs": 3289,
+      "usage": {
+        "inputTokens": 1034,
+        "outputTokens": 218
+      }
+    },
+    {
+      "id": "e9d3d616deb0",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2219,
+      "usage": {
+        "inputTokens": 1744,
+        "outputTokens": 157
+      }
+    },
+    {
+      "id": "edbf4b635c1b",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 2013,
+      "usage": {
+        "inputTokens": 1812,
+        "outputTokens": 102
+      }
+    },
+    {
+      "id": "a0109b3ab8fe",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1895,
+      "usage": {
+        "inputTokens": 1798,
+        "outputTokens": 96
+      }
+    },
+    {
+      "id": "564a3fa8347d",
+      "expected": "newsletter",
+      "predicted": "normal",
+      "latencyMs": 3158,
+      "usage": {
+        "inputTokens": 759,
+        "outputTokens": 239
+      }
+    },
+    {
+      "id": "febfa48781a6",
+      "expected": "normal",
+      "predicted": "newsletter",
+      "latencyMs": 1614,
+      "usage": {
+        "inputTokens": 1764,
+        "outputTokens": 88
+      }
+    },
+    {
+      "id": "7fe74b16aef5",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1697,
+      "usage": {
+        "inputTokens": 1661,
+        "outputTokens": 84
+      }
+    },
+    {
+      "id": "ed2817020b7c",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1782,
+      "usage": {
+        "inputTokens": 1644,
+        "outputTokens": 108
+      }
+    },
+    {
+      "id": "88fd7cc41376",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1742,
+      "usage": {
+        "inputTokens": 1708,
+        "outputTokens": 112
+      }
+    },
+    {
+      "id": "c5384593dd2a",
+      "expected": "newsletter",
+      "predicted": "newsletter",
+      "latencyMs": 1823,
+      "usage": {
+        "inputTokens": 1102,
+        "outputTokens": 85
+      }
+    }
+  ]
+}
