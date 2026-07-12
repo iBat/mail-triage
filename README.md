@@ -161,12 +161,14 @@ hand-labeling ground truth revealed that the owner's real policy was nearly
 the opposite of what the production system did — the n8n version reliably
 pinged on breaking-news digests and stayed silent on recruiter emails.
 
-**Models under identical v3/body configuration.** `claude-haiku-4-5`:
-93.2% accuracy / 84.2% urgent recall / $1.73 per 1000. `claude-sonnet-5`:
-92.0% / 78.9% / $4.62. `gpt-5-mini`: 89.8% / 100.0% / $0.63. The most
-capable general-purpose model (`claude-sonnet-5`) had the *lowest* urgent
-recall of the three — it adheres most strictly to a textbook notion of
-urgency and resists the policy override embedded in the prompt more than
+**Models under identical v3/body configuration.**
+- `claude-haiku-4-5`: 93.2% accuracy / 84.2% urgent recall / $1.73 per 1000.
+- `claude-sonnet-5`: 92.0% / 78.9% / $4.62.
+- `gpt-5-mini`: 89.8% / 100.0% / $0.63.
+
+The most capable general-purpose model (`claude-sonnet-5`) had the *lowest*
+urgent recall of the three — it adheres most strictly to a textbook notion
+of urgency and resists the policy override embedded in the prompt more than
 the smaller models do. By the pre-registered selection rule (urgent recall,
 then newsletter precision, then accuracy, then cost, in that order):
 `gpt-5-mini` wins outright on the first criterion.
