@@ -217,7 +217,7 @@ production status — an app left in "Testing" status issues refresh tokens
 that expire after 7 days, which will silently break the daily cron.
 
 ```
-npm test                                                    # 75 tests
+npm test                                                    # 81 tests
 npm run eval -- --dataset sample --models gpt-5-mini --prompt v1 --input snippet
 npm run pipeline                                             # SHADOW=1: read-only dry run
 ```

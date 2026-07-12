@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { gmail_v1 } from 'googleapis'
-import { extractPlainText, markAsRead, toEmailInput } from '../src/gmail.js'
+import { extractPlainText, fetchRecentEmails, markAsRead, toEmailInput } from '../src/gmail.js'
 
 const b64 = (s: string): string => Buffer.from(s).toString('base64url')
 
@@ -60,6 +60,46 @@ describe('extractPlainText', () => {
       ],
     }
     expect(extractPlainText(mixed)).toBe('actual body')
+  })
+})
+
+describe('fetchRecentEmails', () => {
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  const listOnlyGmail = () => {
+    const list = vi.fn().mockResolvedValue({ data: { messages: [] } })
+    const gmail = { users: { messages: { list } } } as unknown as gmail_v1.Gmail
+    return { gmail, list }
+  }
+
+  it('queries unread mail after now minus the window when unreadOnly is set', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-07-12T09:00:00Z'))
+    const { gmail, list } = listOnlyGmail()
+    await fetchRecentEmails(gmail, 24, true)
+    const after = Math.floor(new Date('2026-07-12T09:00:00Z').getTime() / 1000) - 24 * 3600
+    expect(list).toHaveBeenCalledExactlyOnceWith({
+      userId: 'me',
+      q: `is:unread after:${after}`,
+      maxResults: 100,
+      pageToken: undefined,
+    })
+  })
+
+  it('fetches read and unread mail by default (dataset export needs both)', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-07-12T09:00:00Z'))
+    const { gmail, list } = listOnlyGmail()
+    await fetchRecentEmails(gmail, 12)
+    const after = Math.floor(new Date('2026-07-12T09:00:00Z').getTime() / 1000) - 12 * 3600
+    expect(list).toHaveBeenCalledExactlyOnceWith({
+      userId: 'me',
+      q: `after:${after}`,
+      maxResults: 100,
+      pageToken: undefined,
+    })
   })
 })
 

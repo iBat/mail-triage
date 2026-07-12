@@ -13,12 +13,14 @@ export function gmailService(creds: GmailCredentials): gmail_v1.Gmail {
   return google.gmail({ version: 'v1', auth })
 }
 
-export async function fetchRecentEmails(gmail: gmail_v1.Gmail, hours = 12): Promise<EmailInput[]> {
+// unreadOnly defaults to false: the dataset export must see read mail too.
+export async function fetchRecentEmails(gmail: gmail_v1.Gmail, hours = 24, unreadOnly = false): Promise<EmailInput[]> {
   const after = Math.floor(Date.now() / 1000) - hours * 3600
+  const q = unreadOnly ? `is:unread after:${after}` : `after:${after}`
   const ids: string[] = []
   let pageToken: string | undefined
   do {
-    const res = await gmail.users.messages.list({ userId: 'me', q: `after:${after}`, maxResults: 100, pageToken })
+    const res = await gmail.users.messages.list({ userId: 'me', q, maxResults: 100, pageToken })
     for (const m of res.data.messages ?? []) if (m.id) ids.push(m.id)
     pageToken = res.data.nextPageToken ?? undefined
   } while (pageToken)

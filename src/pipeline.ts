@@ -1,6 +1,6 @@
 import { makeClassifier } from './classifier/factory.js'
 import { buildUrgentDigest, type UrgentItem } from './digest.js'
-import { requireEnv } from './env.js'
+import { parseLookbackHours, requireEnv } from './env.js'
 import { fetchRecentEmails, gmailService, markAsRead } from './gmail.js'
 import { INPUT_VARIANTS, type InputVariant } from './render.js'
 import { sendTelegramMessage } from './telegram.js'
@@ -44,6 +44,7 @@ export async function runPipeline(): Promise<void> {
     throw new Error(`Unknown INPUT_VARIANT "${rawVariant}". Valid: ${INPUT_VARIANTS.join(', ')}`)
   }
   const inputVariant = rawVariant as InputVariant
+  const lookbackHours = parseLookbackHours(process.env.LOOKBACK_HOURS)
   const botToken = requireEnv('TELEGRAM_BOT_TOKEN')
   const chatId = requireEnv('TELEGRAM_CHAT_ID')
 
@@ -55,8 +56,8 @@ export async function runPipeline(): Promise<void> {
 
   const classifier = makeClassifier(model, promptVersion, inputVariant)
 
-  const emails = await fetchRecentEmails(gmail, 12)
-  console.log(`${emails.length} emails in the last 12h; shadow=${shadow}`)
+  const emails = await fetchRecentEmails(gmail, lookbackHours, true)
+  console.log(`${emails.length} unread emails in the last ${lookbackHours}h; shadow=${shadow}`)
 
   const processed: ProcessedEmail[] = []
   for (const email of emails) {
