@@ -222,9 +222,51 @@ npm run eval -- --dataset sample --models gpt-5-mini --prompt v1 --input snippet
 npm run pipeline                                             # SHADOW=1: read-only dry run
 ```
 
-Schedule `npm run pipeline` daily via `launchd` (macOS) or `cron`/a systemd
-timer (Linux), pointed at the repo with `.env` loaded. Run with `SHADOW=1`
-during the parity-check period against the n8n workflow before disabling it.
+## Deployment
+
+The pipeline runs in production on a plain Linux VPS under a systemd timer.
+Requirements: Node >= 22 and systemd >= 253 (for timezone-aware `OnCalendar`
+specs); tested on Ubuntu 24.04 with systemd 255.
+
+One-time setup on the server:
+
+```
+git clone <repo-url> ~/mail-triage && cd ~/mail-triage
+npm ci --no-audit --no-fund   # devDeps required: tsx runs the pipeline.
+                              # Never --omit=dev or NODE_ENV=production here.
+# copy .env out-of-band (scp), then: chmod 600 .env
+sudo timedatectl set-ntp true # the pipeline computes a relative time window
+scripts/install-units.sh      # renders deploy/*.tmpl and installs the units
+```
+
+Do one smoke run with `SHADOW=1` through systemd itself — it validates the
+unit (WorkingDirectory, node path, env-file resolution), not just the code:
+
+```
+sudo systemctl start mail-triage.service
+journalctl -u mail-triage.service -n 40
+```
+
+Then set `SHADOW=0` in `.env` and enable the schedule:
+
+```
+sudo systemctl enable --now mail-triage.timer
+systemctl list-timers mail-triage.timer
+```
+
+Config: `LOOKBACK_HOURS` (default 24) controls the fetch window; the Gmail
+query is `is:unread after:<epoch>`. Routine updates from the dev machine:
+`scripts/deploy.sh [ssh-host]` (git push, then pull + `npm ci` on the
+server; treat the server checkout as read-only or `--ff-only` will refuse).
+
+Observability: `journalctl -u mail-triage.service`, `systemctl list-timers`,
+and `traces/<date>.jsonl` on the server. Failures alert via Telegram
+(`main.ts`), with one blind spot: if `.env` itself fails to load, the bot
+token is missing too — that failure class only shows up in journalctl.
+`Persistent=true` runs a missed 09:00 after downtime; catch-up runs are
+safe by construction (only parsed `newsletter` labels get archived), though
+a still-unread urgent email in two overlapping windows can be digested
+twice. Rollback: `sudo systemctl disable --now mail-triage.timer`.
 
 ## What was improved over the n8n version
 

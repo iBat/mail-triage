@@ -1,0 +1,14 @@
+[Unit]
+Description=mail-triage daily Gmail triage pipeline
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=@USER@
+WorkingDirectory=@DIR@
+# WorkingDirectory is load-bearing: both --env-file-if-exists=.env and the
+# bare "tsx" specifier in --import resolve relative to the CWD.
+ExecStart=@NODE@ --env-file-if-exists=.env --import tsx src/main.ts
+TimeoutStartSec=30min
+SyslogIdentifier=mail-triage

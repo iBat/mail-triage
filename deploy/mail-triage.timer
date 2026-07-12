@@ -1,0 +1,9 @@
+[Unit]
+Description=Run mail-triage daily at 09:00 Tbilisi time
+
+[Timer]
+OnCalendar=*-*-* 09:00:00 Asia/Tbilisi
+Persistent=true
+
+[Install]
+WantedBy=timers.target
